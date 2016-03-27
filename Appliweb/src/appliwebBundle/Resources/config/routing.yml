@@ -1,0 +1,51 @@
+appliweb_homepage:
+    path:     /
+    defaults: { _controller: appliwebBundle:Advert:index }
+
+Homepage:
+    path:     /index
+    defaults: { _controller: appliwebBundle:Advert:index }
+
+Cat_list:
+    path:     /cat-list
+    defaults: { _controller: appliwebBundle:Advert:catlist }
+
+Food:
+    path:     /food
+    defaults: { _controller: appliwebBundle:Advert:food }
+
+Goodies:
+    path:     /goodies
+    defaults: { _controller: appliwebBundle:Advert:goodies }
+
+Infocat:
+    path:     /infocat
+    defaults: { _controller: appliwebBundle:Advert:infocat }
+
+Addtrick:
+    path:     /addtrick
+    defaults: { _controller: appliwebBundle:Advert:addtrick }
+
+Edittrick:
+    path:     /edittrick
+    defaults: { _controller: appliwebBundle:Advert:edittrick }
+
+Trick:
+    path:     /trick
+    defaults: { _controller: appliwebBundle:Advert:trick }
+
+Editcat:
+    path:     /editcat
+    defaults: { _controller: appliwebBundle:Advert:editcat }
+
+Addcat:
+    path:     /addcat
+    defaults: { _controller: appliwebBundle:Advert:addcat }
+
+Nopublish:
+    path:     /nopublish
+    defaults: { _controller: appliwebBundle:Advert:nopublish }
+
+User:
+    path:     /user
+    defaults: { _controller: appliwebBundle:Advert:user }

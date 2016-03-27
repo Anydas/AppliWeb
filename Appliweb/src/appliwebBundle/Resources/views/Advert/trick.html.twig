@@ -1,0 +1,54 @@
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+        <title>Trick</title>
+        {{ include("appliwebBundle:Advert:layout.html.twig") }}
+        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+    </head>
+    <body>
+    <div class="container">
+    <br>
+	  <br>
+	  <br>
+        <p>
+
+        <table class="table table-bordered table-striped table-condensed">
+           <thead>
+               <tr>
+                   <th>Image</th>
+                   <th>Cat name</th>
+                   <th>Trick</th>
+                   <th>Post by</th>
+                   <th>Edit</th>
+                   </tr>
+           </thead>
+           <tbody>
+           {% for list in listTrick %}
+             <tr>
+               {% for cat in listCat %}
+               {% if list.idcat == cat.id %}
+             <td>&nbsp<a class="fancybox" href="Assets/Image/{{ cat.frenchname }}.png" data-fancybox-group="gallery" title="{{ cat.frenchname }}"><img src="Assets/Image/{{ cat.frenchname }}.png" alt="{{ cat.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+             <td>&nbsp{{ cat.frenchname }}&nbsp</td>
+             {% endif %}
+             {% endfor %}
+             <td>&nbsp{{ list.trickdescription }}&nbsp</td>
+             {% for user in listUser %}
+            {% if list.iduser == user.id %}
+            <td>&nbsp{{ user.pseudo }}&nbsp</td>
+            {% endif %}
+            {% endfor %}
+             <td><a class="btn btn-primary" href="edittrick?trick={{ list.id }}&desc={{ list.trickdescription }}" role="button">Edit</a>
+             <a class="btn btn-danger" href="trick?trickid={{ list.id }}" role="button">Delete</a></td>
+             </tr>
+           {% endfor %}
+           </tbody>
+         </table>
+
+        </p>
+        </div>
+    </body>
+</html>

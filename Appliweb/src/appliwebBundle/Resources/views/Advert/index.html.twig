@@ -1,0 +1,31 @@
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.min.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+        <title>Home</title>
+        {{ include("appliwebBundle:Advert:layout.html.twig") }}
+    </head>
+<body>
+<div class="container">
+	  <br>
+	  <br>
+	  <br>
+       {{ include("appliwebBundle:Advert:carousel.html.twig") }}
+        <p>Neko Atsume (Kitty Collector in English) is a recent trending iOS and
+           Android mobile phone game designed by the Japanese developer Hit-Point,
+           in 2014. An English language option was released in an update on 30th
+           October, 2015. It's addictive, adorable, and completely free!
+
+           The game provides the player of a small backyard area (which can
+           later be expanded with an indoor area as well) where the stray cats
+           of the neighborhood come to visit. The game currently features more
+           than 50 different Cats: white and black, tabby and calico. Rare Cats
+           are rumored to roam the neighborhood too, but you'll need particular
+           items to entice those elusive felines!
+        </p>
+</div>
+    </body>
+</html>

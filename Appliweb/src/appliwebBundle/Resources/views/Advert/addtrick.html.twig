@@ -1,0 +1,27 @@
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+        <title>Add a trick</title>
+        {{ include("appliwebBundle:Advert:layout.html.twig") }}
+    </head>
+    <body>
+    <div class="container">
+	  <br>
+	  <br>
+	  <br>
+        <div class="well">
+          {% form_theme form 'bootstrap_3_layout.html.twig' %}
+          {{ form(form) }}
+        </div>
+        <p>
+
+
+
+        </p>
+        </div>
+    </body>
+</html>

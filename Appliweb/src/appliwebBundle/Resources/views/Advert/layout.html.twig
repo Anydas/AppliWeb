@@ -1,0 +1,58 @@
+<div class="container">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+ <div class="navbar-header">
+    <a class="navbar-brand" href="index"><img src="Assets/Image/Logo.png" alt="title" style="width:120px;height:45px;" /></a>
+     </div>
+     <ul class="nav navbar-nav">
+        {% if page == "index" %}
+        <li class="active"> <a href="index">Home</a> </li>
+        {% else %}
+        <li> <a href="index">Home</a> </li>
+        {% endif %}
+        {% if page == "cat-list" %}
+        <li class="active"> <a href="cat-list">Cat list</a> </li>
+        {% else %}
+        <li> <a href="cat-list">Cat list</a> </li>
+        {% endif %}
+        {% if page == "food" %}
+        <li class="active"> <a href="food">Food</a> </li>
+        {% else %}
+        <li> <a href="food">Food</a> </li>
+        {% endif %}
+        {% if page == "goodies" %}
+        <li class="active"> <a href="goodies">Goodies</a> </li>
+        {% else %}
+        <li> <a href="goodies">Goodies</a> </li>
+        {% endif %}
+        {% if page == "trick" %}
+        <li class="active"> <a href="trick">Trick</a> </li>
+        {% else %}
+        <li> <a href="trick">Trick</a> </li>
+        {% endif %}
+        {% if page == "addtrick" %}
+        <li class="active"> <a href="addtrick">Add a trick</a> </li>
+        {% else %}
+        <li> <a href="addtrick">Add a trick</a> </li>
+        {% endif %}
+        {% if page == "addcat" %}
+        <li class="active"> <a href="addcat">Add a cat</a> </li>
+        {% else %}
+        <li> <a href="addcat">Add a cat</a> </li>
+        {% endif %}
+        {% if page == "nopublish" %}
+        <li class="active"> <a href="nopublish">No publish</a> </li>
+        {% else %}
+        <li> <a href="nopublish">No publish</a> </li>
+        {% endif %}
+        {% if page == "user" %}
+        <li class="active"> <a href="user">User</a> </li>
+        {% else %}
+        <li> <a href="user">User</a> </li>
+        {% endif %}
+
+
+      </ul>
+    </div>
+  </nav>
+</div>

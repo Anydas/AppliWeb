@@ -1,0 +1,42 @@
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.min.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+        <title>Cat info</title>
+        {{ include("appliwebBundle:Advert:layout.html.twig") }}
+        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+    </head>
+<body>
+<div class="container">
+	  <br>
+	  <br>
+	  <br>
+        <p>
+
+        {% for list in nom %}
+        <center>
+        <a class="fancybox" href="Assets/Image/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>
+        <br>
+        {{ list.frenchname }}
+        <br>
+        {{ list.japanesename }}
+        <br>
+        {{ list.description }}
+        <br>
+        {{ list.personality }}
+        <br>
+        {{ list.level }}
+        <br>
+        <a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>
+        </center>
+        {% endfor %}
+
+
+
+        </p>
+        </div>
+    </body>
+</html>

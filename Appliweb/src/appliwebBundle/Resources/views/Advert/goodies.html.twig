@@ -1,0 +1,46 @@
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.min.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+        <title>Goodies</title>
+        {{ include("appliwebBundle:Advert:layout.html.twig") }}
+        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+    </head>
+    <body>
+    <div class="container">
+	  <br>
+	  <br>
+	  <br>
+        <p>
+        <table class="table table-bordered table-striped table-condensed">
+           <thead>
+               <tr>
+				   <th>Image</th>
+                   <th>Name</th>
+                   <th>Description</th>
+                   <th>Size</th>
+                   <th>Fit</th>
+                   <th>Price</th>
+               </tr>
+           </thead>
+           <tbody>
+           {% for list in listGoodies %}
+             <tr>
+			 <td>&nbsp<a class="fancybox" href="Assets/Image/{{ list.name }}.png" data-fancybox-group="gallery" title="{{ list.name }}"><img src="Assets/Image/{{ list.name }}.png" alt="{{ list.name }}" style="width:62px;height:45px;"/>&nbsp</td>
+             <td>&nbsp{{ list.name }}&nbsp</td>
+             <td>&nbsp{{ list.description }}&nbsp</td>
+             <td>&nbsp<img src="Assets/Image/{{ list.size }}Size.png" alt="{{ list.size }}" style="width:20px;height:12px;">&nbsp</td>
+             <td>&nbsp{{ list.fit }}&nbsp</td>
+             <td>&nbsp{{ list.price }}&nbsp</td>
+             </tr>
+           {% endfor %}
+           </tbody>
+         </table>
+
+        </p>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+body { background-color:#FFFFFF; }
+
+.container-fluid {
+	background-color:#FEEAA9;
+
+	}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+		background-color:#BF5300;
+		color:white;
+	}
+
+.navbar-default .navbar-nav > li > a {
+		color:#BF5300;
+	}
+
+.navbar-default .navbar-nav > li > a:focus {
+		color:white;
+	}
+
+.navbar-default .navbar-nav > li > a:hover {
+		color:#5B2800;
+	}
+
+.carousel{
+    background: #2f4357;
+    margin-top: 20px;
+}
+.carousel .item img{
+    margin: 0 auto; /* Align slide image horizontally center */
+}
+.bs-example{
+	margin: 20px;
+}
+
+.fancybox-custom .fancybox-skin {
+	box-shadow: 0 0 50px #222;
+}

@@ -1,0 +1,45 @@
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+        <title>User</title>
+        {{ include("appliwebBundle:Advert:layout.html.twig") }}
+
+    </head>
+    <body>
+    <div class="container">
+	  <br>
+	  <br>
+	  <br>
+        <table class="table table-bordered table-striped table-condensed">
+           <thead>
+               <tr>
+                   <th>Pseudo</th>
+                   <th>Email</th>
+                   <th>Edit</th>
+                   </tr>
+           </thead>
+           <tbody>
+           {% for list in listUser %}
+             <tr>
+             <td>&nbsp{{ list.pseudo }}</td>
+             <td>&nbsp{{ list.email }}&nbsp</td>
+             {% if list.isban == 0 %}
+             <td><a class="btn btn-danger" href="user?userid={{ list.id }}" role="button">Ban</a></td>
+              {% else %}
+               <td><a class="btn btn-success" href="user?useriddeb={{ list.id }}" role="button">UnBan</a></td>
+               {% endif %}
+             </tr>
+           {% endfor %}
+           </tbody>
+         </table>
+
+        <p>
+
+        </p>
+        </div>
+    </body>
+</html>
