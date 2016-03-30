@@ -28,7 +28,7 @@ Addtrick:
 
 Edittrick:
     path:     /edittrick
-    defaults: { _controller: appliwebBundle:Advert:edittrick }
+    defaults: { _controller: appliwebBundle:Admin:edittrick }
 
 Trick:
     path:     /trick
@@ -36,7 +36,7 @@ Trick:
 
 Editcat:
     path:     /editcat
-    defaults: { _controller: appliwebBundle:Advert:editcat }
+    defaults: { _controller: appliwebBundle:Admin:editcat }
 
 Addcat:
     path:     /addcat
@@ -44,8 +44,16 @@ Addcat:
 
 Nopublish:
     path:     /nopublish
-    defaults: { _controller: appliwebBundle:Advert:nopublish }
+    defaults: { _controller: appliwebBundle:Admin:nopublish }
 
 User:
     path:     /user
-    defaults: { _controller: appliwebBundle:Advert:user }
+    defaults: { _controller: appliwebBundle:Admin:user }
+
+AdminCat_list:
+    path:     /admincat-list
+    defaults: { _controller: appliwebBundle:Admin:catlist }
+
+AdminTrick:
+    path:     /admintrick
+    defaults: { _controller: appliwebBundle:Admin:trick }

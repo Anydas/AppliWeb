@@ -1,4 +1,11 @@
-body { background-color:#FFFFFF; }
+html{
+	  position: relative;
+          min-height: 100%;
+}
+body { background-color:#FFFFFF;
+	  margin-bottom: 140px;
+
+}
 
 .container-fluid {
 	background-color:#FEEAA9;
@@ -35,4 +42,22 @@ body { background-color:#FFFFFF; }
 
 .fancybox-custom .fancybox-skin {
 	box-shadow: 0 0 50px #222;
+}
+
+.footer{
+
+	background-color: #BF5300;
+	position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 120px;
+}
+
+#footer-sousdiv {
+
+	  transform: translateY(+50%);
+           text-align: center;
+          position: relative;
+
 }

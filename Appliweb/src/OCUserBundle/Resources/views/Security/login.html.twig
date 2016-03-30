@@ -1,8 +1,16 @@
 {# src/OC/UserBundle/Resources/views/Security/login.html.twig #}
 
+<!DOCTYPE html>
+<html>
+    <head>
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.min.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
 
+        <title>Login</title>
 
-{% block body %}
+        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+    </head>
+<body>
 
   {# S'il y a une erreur, on l'affiche dans un joli cadre #}
   {% if error %}
@@ -10,14 +18,16 @@
   {% endif %}
 
   {# Le formulaire, avec URL de soumission vers la route « login_check » comme on l'a vu #}
-  <form action="{{ path('login_check') }}" method="post">
-    <label for="username">Login :</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-    <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="_password" />
-    <br />
-    <input type="submit" value="Connexion" />
-  </form>
-
-{% endblock %}
+<div class="container">
+<form class="form-signin"  action="{{ path('login_check') }}" method="post">
+  <h2 class="form-signin-heading">Bienvenue, connectez vous pour continuez !</h2>
+  <label for="text" class="sr-only">Login :</label>
+  <input type="text" id="username" name="_username" class="form-control" placeholder="Pseudo" required="" autofocus="">
+  <label for="inputPassword" class="sr-only">Mot de passe :</label>
+  <input type="password" id="password" name="_password" class="form-control" placeholder="Password" required="">
+  <br>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" value="Connexion">Connexion</button>
+</form>
+</div>
+</body>
+</html>

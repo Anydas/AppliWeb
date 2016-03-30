@@ -10,11 +10,19 @@
         {% else %}
         <li> <a href="index">Home</a> </li>
         {% endif %}
+		{% if testrole == "admin"%}
         {% if page == "cat-list" %}
+        <li class="active"> <a href="admincat-list">Cat list</a> </li>
+        {% else %}
+        <li> <a href="admincat-list">Cat list</a> </li>
+        {% endif %}
+		{% else %}
+		 {% if page == "cat-list" %}
         <li class="active"> <a href="cat-list">Cat list</a> </li>
         {% else %}
         <li> <a href="cat-list">Cat list</a> </li>
         {% endif %}
+		{% endif %}
         {% if page == "food" %}
         <li class="active"> <a href="food">Food</a> </li>
         {% else %}
@@ -25,11 +33,21 @@
         {% else %}
         <li> <a href="goodies">Goodies</a> </li>
         {% endif %}
+		{% if testrole == "admin"%}
         {% if page == "trick" %}
+        <li class="active"> <a href="admintrick">Trick</a> </li>
+        {% else %}
+        <li> <a href="admintrick">Trick</a> </li>
+        {% endif %}
+		{% else %}
+		{% if page == "trick" %}
         <li class="active"> <a href="trick">Trick</a> </li>
         {% else %}
         <li> <a href="trick">Trick</a> </li>
-        {% endif %}
+		{% endif %}
+		{% endif %}
+
+
         {% if page == "addtrick" %}
         <li class="active"> <a href="addtrick">Add a trick</a> </li>
         {% else %}
@@ -40,6 +58,7 @@
         {% else %}
         <li> <a href="addcat">Add a cat</a> </li>
         {% endif %}
+	{% if testrole == "admin"%}
         {% if page == "nopublish" %}
         <li class="active"> <a href="nopublish">No publish</a> </li>
         {% else %}
@@ -49,8 +68,10 @@
         <li class="active"> <a href="user">User</a> </li>
         {% else %}
         <li> <a href="user">User</a> </li>
-        {% endif %}
 
+		{% endif %}
+		{% endif %}
+        <li> <a href="logout">Logout</a> </li>
 
       </ul>
     </div>

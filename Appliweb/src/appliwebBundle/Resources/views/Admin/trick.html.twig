@@ -23,7 +23,7 @@
                    <th>Cat name</th>
                    <th>Trick</th>
                    <th>Post by</th>
-
+                   <th>Edit</th>
                    </tr>
            </thead>
            <tbody>
@@ -41,9 +41,8 @@
             <td>&nbsp{{ user.pseudo }}&nbsp</td>
             {% endif %}
             {% endfor %}
-            <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
-              <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a>
-              <br> 0 0</td>
+             <td><a class="btn btn-primary" href="edittrick?trick={{ list.id }}&desc={{ list.trickdescription }}" role="button">Edit</a>
+             <a class="btn btn-danger" href="trick?trickid={{ list.id }}" role="button">Delete</a></td>
              </tr>
            {% endfor %}
            </tbody>

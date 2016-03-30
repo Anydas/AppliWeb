@@ -22,90 +22,41 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
+
 class AdvertController extends Controller
 {
     public function indexAction(Request $request)
     {
 
+    if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+      $testrole="admin";
+    }else{
+      if ($this->get('security.context')->isGranted('ROLE_USER')) {
+      $testrole="user";
+    }else{$testrole="autre";}}
+
 $content = $this
     ->get('templating')
     ->render('appliwebBundle:Advert:index.html.twig', array(
-        'page' => 'index'
+        'page' => 'index',
+        'testrole' => $testrole
 ));
     return new Response($content);
 
     }
 
-    public function userAction(Request $req)
-    {
-      if (null !== $req->query->get('userid'))
-       {  $rep = $this
-           ->getDoctrine()
-           ->getManager()
-           ->getRepository('appliwebBundle:user')
-         ;
-         $em = $this->getDoctrine()->getManager();
 
-         $cat = $rep->findOneById($req->query->get('userid'));
-
-        $cat->setIsBan(1);
-
-         $em->flush();
-
-       }
-
-       if (null !== $req->query->get('useriddeb'))
-        {  $rep = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('appliwebBundle:user')
-          ;
-          $em = $this->getDoctrine()->getManager();
-
-          $cat = $rep->findOneById($req->query->get('useriddeb'));
-
-         $cat->setIsBan(0);
-
-          $em->flush();
-
-        }
-      $repository = $this
-        ->getDoctrine()
-        ->getManager()
-        ->getRepository('appliwebBundle:user')
-      ;
-
-      $listuser = $repository->findAll();
-
-    $content = $this
-    ->get('templating')
-    ->render('appliwebBundle:Advert:user.html.twig', array(
-        'page' => 'user',
-        'listUser' => $listuser
-    ));
-    return new Response($content);
-
-    }
 
 	 public function catlistAction(Request $req)
     {
+      if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        $testrole="admin";
+      }else{
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+        $testrole="user";
+      }else{$testrole="autre";}}
 
 
-      if (null !== $req->query->get('catid'))
-      {  $rep = $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('appliwebBundle:Cat')
-        ;
-        $em = $this->getDoctrine()->getManager();
-
-        $cat = $rep->findOneById($req->query->get('catid'));
-
-        $em->remove($cat);
-
-        $em->flush();
-
-      }
       $defaultData = array('message' => 'Type your message here');
       $form = $this->createFormBuilder($defaultData)
         ->add('cat_name', 'entity', array(
@@ -138,127 +89,26 @@ $content = $this
         ->render('appliwebBundle:Advert:catlist.html.twig', array(
         'listCat' => $listCat,
         'page' => 'cat-list',
-        'form' => $form->createView()
+        'form' => $form->createView(),
+        'testrole' => $testrole
       )
     );}
     return new Response($content);
 
     }
 
-    public function nopublishAction(Request $req)
-     {
-       if (null !== $req->query->get('catidrem'))
-       {  $rep = $this
-           ->getDoctrine()
-           ->getManager()
-           ->getRepository('appliwebBundle:Cat')
-         ;
-         $em = $this->getDoctrine()->getManager();
 
-         $cat = $rep->findOneById($req->query->get('catidrem'));
-
-         $em->remove($cat);
-
-         $em->flush();
-
-       }
-
-       if (null !== $req->query->get('catid'))
-       {  $rep = $this
-           ->getDoctrine()
-           ->getManager()
-           ->getRepository('appliwebBundle:Cat')
-         ;
-         $em = $this->getDoctrine()->getManager();
-
-         $cat = $rep->findOneById($req->query->get('catid'));
-
-        $cat->setIsPublish(1);
-
-         $em->flush();
-
-       }
-       if (null !== $req->query->get('trickid'))
-       {  $rep = $this
-           ->getDoctrine()
-           ->getManager()
-           ->getRepository('appliwebBundle:Trick')
-         ;
-         $em = $this->getDoctrine()->getManager();
-
-         $trick = $rep->findOneById($req->query->get('trickid'));
-
-         $trick->setIsPublish(1);
-
-         $em->flush();
-
-       }
-
-       if (null !== $req->query->get('trickidrem'))
-       {  $rep = $this
-           ->getDoctrine()
-           ->getManager()
-           ->getRepository('appliwebBundle:Trick')
-         ;
-         $em = $this->getDoctrine()->getManager();
-
-         $trick = $rep->findOneById($req->query->get('trickidrem'));
-
-          $em->remove($trick);
-
-         $em->flush();
-
-       }
-       /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
-       $repository = $this
-         ->getDoctrine()
-         ->getManager()
-         ->getRepository('appliwebBundle:Cat')
-       ;
-
-       $listCat = $repository->findByIsPublish(0);
-
-       $rep = $this
-         ->getDoctrine()
-         ->getManager()
-         ->getRepository('appliwebBundle:Trick')
-       ;
-
-       $repositorys = $this
-         ->getDoctrine()
-         ->getManager()
-         ->getRepository('appliwebBundle:Cat')
-       ;
-       $repositoryss = $this
-         ->getDoctrine()
-         ->getManager()
-         ->getRepository('appliwebBundle:user')
-       ;
-
-     $listTrick = $rep->findByIsPublish(0);
-    $listCat2 = $repositorys->findAll();
-    $listUser = $repositoryss->findAll();
-
-
-   //  $listCat = $repository->findAll();
-
- $content = $this
-     ->get('templating')
-     ->render('appliwebBundle:Advert:nopublish.html.twig', array(
-         'listCat' => $listCat,
-         'listTrick' => $listTrick,
-         'listCat2' => $listCat2,
-         'listUser' => $listUser,
-         'page' => 'nopublish'
-     )
- );
-     return new Response($content);
-
-     }
 
 
     public function infocatAction(Request $req)
      {
+       if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+         $testrole="admin";
+       }else{
+         if ($this->get('security.context')->isGranted('ROLE_USER')) {
+         $testrole="user";
+       }else{$testrole="autre";}}
+
 
        $tag = $req->query->get('chat');
 
@@ -275,7 +125,8 @@ $content = $this
      ->get('templating')
      ->render('appliwebBundle:Advert:infocat.html.twig', array(
          'nom' => $cat,
-         'page' => 'cat-list'
+         'page' => 'cat-list',
+         'testrole' => $testrole
      )
  );
      return new Response($content);
@@ -285,6 +136,14 @@ $content = $this
 
 	 public function foodAction()
     {
+      if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        $testrole="admin";
+      }else{
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+        $testrole="user";
+      }else{$testrole="autre";}}
+
+
       /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
 	    $repository = $this
         ->getDoctrine()
@@ -299,7 +158,8 @@ $content = $this
     ->get('templating')
     ->render('appliwebBundle:Advert:food.html.twig', array(
         'listFood' => $listFood,
-        'page' => 'food'
+        'page' => 'food',
+        'testrole' => $testrole
     )
 );
     return new Response($content);
@@ -308,6 +168,14 @@ $content = $this
 
 	 public function goodiesAction()
     {
+      if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        $testrole="admin";
+      }else{
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+        $testrole="user";
+      }else{$testrole="autre";}}
+
+
       /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
       $repository = $this
         ->getDoctrine()
@@ -320,7 +188,8 @@ $content = $this
     ->get('templating')
     ->render('appliwebBundle:Advert:goodies.html.twig', array(
         'listGoodies' => $listGoodies,
-        'page' => 'goodies'
+        'page' => 'goodies',
+        'testrole' => $testrole
     )
 );
     return new Response($content);
@@ -329,6 +198,12 @@ $content = $this
 
     public function addtrickAction(Request $request)
     {
+      if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        $testrole="admin";
+      }else{
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+        $testrole="user";
+      }else{$testrole="autre";}}
 
 
       $defaultData = array('message' => 'Type your message here');
@@ -355,14 +230,33 @@ $content = $this
             ->getRepository('appliwebBundle:Cat')
           ;
 
+          $rep = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('appliwebBundle:user')
+          ;
+
          $cat = $repository->findOneByFrench_name($data['cat_name']->getFrenchName());
          if (null === $cat) {
       throw new NotFoundHttpException("Le chat : ".$data['cat_name']->getFrenchName()." n'existe pas.");
     }
 
+
+          // On récupère le service
+
+          $user= $this->container->get('security.context')->getToken()->getUser();
+
+          if (null === $user) {
+            // Ici, l'utilisateur est anonyme ou l'URL n'est pas derrière un pare-feu
+          } else {
+              $userinbdd = $rep->findOneByPseudo($user);
+            // Ici, $user est une instance de notre classe User
+          }
+
+
           $trick=new Trick();
           $trick->setIdCat($cat->getId());
-          $trick->setIdUser(1);
+          $trick->setIdUser($userinbdd->getId());
           $trick->setTrickDescription($data['description']);
           $trick->setNbLike(0);
           $trick->setNbDislike(0);
@@ -389,7 +283,8 @@ $content = $this
             ->get('templating')
             ->render('appliwebBundle:Advert:addtrick.html.twig', array(
                 'form' => $form->createView(),
-                'page' => 'addtrick'
+                'page' => 'addtrick',
+                'testrole' => $testrole
               ));}
             return new Response($content);
 
@@ -397,7 +292,12 @@ $content = $this
 
     public function addcatAction(Request $request)
     {
-
+      if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        $testrole="admin";
+      }else{
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+        $testrole="user";
+      }else{$testrole="autre";}}
 
       $defaultData = array('message' => 'Type your message here');
       $form = $this->createFormBuilder($defaultData)
@@ -485,7 +385,8 @@ $content = $this
             ->get('templating')
             ->render('appliwebBundle:Advert:addcat.html.twig', array(
                 'form' => $form->createView(),
-                'page' => 'addcat'
+                'page' => 'addcat',
+                'testrole' => $testrole
               ));}
             return new Response($content);
 
@@ -494,8 +395,14 @@ $content = $this
 
     public function trickAction(Request $req)
      {
+       if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+         $testrole="admin";
+       }else{
+         if ($this->get('security.context')->isGranted('ROLE_USER')) {
+         $testrole="user";
+       }else{$testrole="autre";}}
 
-       if (null !== $req->query->get('trickid'))
+       if (null !== $req->query->get('votegid'))
        {  $rep = $this
            ->getDoctrine()
            ->getManager()
@@ -503,10 +410,27 @@ $content = $this
          ;
          $em = $this->getDoctrine()->getManager();
 
-         $trick = $rep->findOneById($req->query->get('trickid'));
+         $trick = $rep->findOneById($req->query->get('votegid'));
+         $nblike= $trick->getNbLike();
 
-         $em->remove($trick);
+         $trick->setNbLike($nblike+1);
+         $em->persist($trick);
+         $em->flush();
 
+       }
+       if (null !== $req->query->get('votebid'))
+       {  $rep = $this
+           ->getDoctrine()
+           ->getManager()
+           ->getRepository('appliwebBundle:Trick')
+         ;
+         $em = $this->getDoctrine()->getManager();
+
+         $trick = $rep->findOneById($req->query->get('votebid'));
+         $nblike= $trick->getNbDislike();
+
+         $trick->setNbDislike($nblike+1);
+         $em->persist($trick);
          $em->flush();
 
        }
@@ -537,138 +461,15 @@ $content = $this
          'listTrick' => $listTrick,
          'listCat' => $listCat,
          'listUser' => $listUser,
-         'page' => 'trick'
+         'page' => 'trick',
+         'testrole' => $testrole
      )
  );
      return new Response($content);
 
      }
 
-     public function edittrickAction(Request $request)
-         {
-             // On récupère l'EntityManager
-             $em = $this->getDoctrine()->getManager();
-
-             $idtrick = $request->query->get('trick');
-             $desctrick = $request->query->get('desc');
-
-             $defaultData = array('message' => 'Type your message here');
-             $form = $this->createFormBuilder($defaultData)
-               ->add('description', 'textarea')
-               ->add('send', 'submit')
-               ->getForm();
-
-             $form->handleRequest($request);
-
-                 if ($form->isValid()) {
-               // data is an array with "name", "email", and "message" keys
-               $data = $form->getData();
-
-               $repository = $this
-                 ->getDoctrine()
-                 ->getManager()
-                 ->getRepository('appliwebBundle:Trick')
-               ;
 
 
-             $trickactuel = $repository->findOneById($idtrick);
-             $trickactuel->setTrickDescription($data['description']);
 
-             $em->flush();
-
-             //return $this->redirect($this->generateUrl('index'));
-             $content = new RedirectResponse('index');
-
-             }else{
-
-               //fonctionne !
-
-             $content = $this
-                 ->get('templating')
-                 ->render('appliwebBundle:Advert:edittrick.html.twig', array(
-                     'form' => $form->createView(),
-                     'id' => $idtrick,
-                     'desc' => $desctrick,
-                     'page' => 'trick'
-                   ));}
-                 return new Response($content);
-         }
-
-         public function editcatAction(Request $request)
-         {
-           $id = $request->query->get('catid');
-           $defaultData = array('message' => 'Type your message here');
-           $form = $this->createFormBuilder($defaultData)
-             ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3))))
-             ->add('japanese_name', 'text')
-             ->add('description', 'textarea')
-             ->add('personality', 'text')
-             ->add('level', 'integer')
-             ->add('israre', 'checkbox',array('required' => false))
-             ->add('image', 'file')
-             ->add('memento', 'file')
-             ->add('send', 'submit')
-             ->getForm();
-
-           $form->handleRequest($request);
-
-               if ($form->isValid()) {
-             // data is an array with "name", "email", and "message" keys
-             $data = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-
-            $repository = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('appliwebBundle:Cat')
-            ;
-
-            $catactuel = $repository->findOneById($id);
-            if (null === $catactuel) {
-         throw new NotFoundHttpException("Le chat : ".$data['french_name']." n'existe pas.");
-       }
-
-            $catactuel->setFrenchName($data['french_name']);
-            $catactuel->setJapaneseName($data['japanese_name']);
-            $catactuel->setDescription($data['description']);
-            $catactuel->setPersonality($data['personality']);
-            $catactuel->setLevel($data['level']);
-            $catactuel->setIsRare($data['israre']);
-
-
-            $pos = strpos($data['image']->getClientOriginalName(), ".png");
-            if($pos === false){
-
-              throw new UnsupportedMediaTypeHttpException("Le format de l'image n'est pas respecté (png seulement !) : ".$data['image']->getClientOriginalName());
-            }
-
-            $poss = strpos($data['memento']->getClientOriginalName(), ".png");
-            if($poss === false){
-
-              throw new UnsupportedMediaTypeHttpException("Le format de l'image n'est pas respecté (png seulement !) : ".$data['image']->getClientOriginalName());
-            }
-
-            $image1=new Image();
-            $image1->setFile($data['image']);
-            $image1->upload("Assets/Image",$data['french_name'].".png");
-
-            $image2=new Image();
-            $image2->setFile($data['memento']);
-            $image2->upload("Assets/Image/Memento",$data['french_name'].".png");
-
-            $em->flush();
-            $content = new RedirectResponse('index');
-          }else {
-
-
-           $content = $this
-           ->get('templating')
-           ->render('appliwebBundle:Advert:editcat.html.twig', array(
-             'page' => 'cat-list',
-             'form' => $form->createView()
-           ));}
-         return new Response($content);
-
-         }
 }?>

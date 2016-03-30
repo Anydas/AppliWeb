@@ -19,10 +19,16 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
+  
+        main_login:
+          # Cette expression régulière permet de prendre /login (mais pas /login_check !)
+            pattern:   ^/login$
+            anonymous: true
+
 
         main:
             pattern:   ^/
-            anonymous: true
+            anonymous: false
             provider:  in_memory
             form_login:
                 login_path: login
@@ -32,4 +38,6 @@ security:
                 target: /index
 
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/nopublish, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
