@@ -1,0 +1,72 @@
+<?php
+
+namespace OCUserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* User
+*
+* @ORM\Table(name="user")
+* @ORM\Entity(repositoryClass="OCUserBundle\Repository\UserRepository")
+*/
+class User
+{
+  /**
+  * @var int
+  *
+  * @ORM\Column(name="id", type="integer")
+  * @ORM\Id
+  * @ORM\GeneratedValue(strategy="AUTO")
+  */
+  private $id;
+
+  /**
+  * @var string
+  *
+  * @ORM\Column(name="username", type="string", length=20, unique=true)
+  */
+  private $username;
+
+  /**
+  * @var string
+  *
+  * @ORM\Column(name="password", type="string", length=18)
+  */
+  private $password;
+
+  /**
+  * @var array
+  *
+  * @ORM\Column(name="salt", type="string", length=255)
+  */
+  private $salt;
+
+  /**
+  * @var array
+  *
+  * @ORM\Column(name="role", type="array")
+  */
+  private $role;
+
+  /**
+  * @var string
+  *
+  * @ORM\Column(name="email", type="string", length=70, unique=true)
+  */
+  private $email;
+
+  /**
+  * @var bool
+  *
+  * @ORM\Column(name="isban", type="boolean")
+  */
+  private $isban;
+
+
+  public function eraseCredentials()
+  {
+  }
+
+
+}
