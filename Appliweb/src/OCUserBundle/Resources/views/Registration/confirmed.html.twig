@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)http://getbootstrap.com/examples/signin/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
+  <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+
+  <title>Login</title>
+
+</head>
+
+<body style="background-color:#FFFFFF">
+  <div class="container">
+    <p>{{ registration confirmed }}</p>
+    {% if targetUrl %}
+    <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+    {% endif %}
+    </div>
+
+    </body></html>

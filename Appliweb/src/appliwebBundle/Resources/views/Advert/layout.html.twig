@@ -17,7 +17,7 @@
           {% else %}
           <li> <a href="index">Home</a> </li>
           {% endif %}
-          {% if testrole == "admin"%}
+          {% if is_granted("ROLE_ADMIN") %}
           {% if page == "cat-list" %}
           <li class="active"> <a href="admincat-list">Cat list</a> </li>
           {% else %}
@@ -40,7 +40,7 @@
           {% else %}
           <li> <a href="goodies">Goodies</a> </li>
           {% endif %}
-          {% if testrole == "admin"%}
+          {% if is_granted("ROLE_ADMIN") %}
           {% if page == "trick" %}
           <li class="active"> <a href="admintrick">Trick</a> </li>
           {% else %}
@@ -53,8 +53,7 @@
           <li> <a href="trick">Trick</a> </li>
           {% endif %}
           {% endif %}
-
-
+          {% if is_granted("ROLE_USER") %}
           {% if page == "addtrick" %}
           <li class="active"> <a href="addtrick">Add a trick</a> </li>
           {% else %}
@@ -65,7 +64,8 @@
           {% else %}
           <li> <a href="addcat">Add a cat</a> </li>
           {% endif %}
-          {% if testrole == "admin"%}
+          {% endif %}
+          {% if is_granted("ROLE_ADMIN") %}
           {% if page == "nopublish" %}
           <li class="active"> <a href="nopublish">No publish</a> </li>
           {% else %}
@@ -82,7 +82,13 @@
 
         </ul>
         <ul class="nav navbar-nav pull-right">
-          <li> <a href="logout">Logout</a> </li>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+          <li><a class="glyphicon glyphicon-off" href="{{ path('fos_user_security_logout') }}" role="button"></a></li>
+          Bonjour {{ app.user.username }}
+          {% else %}
+          <li> <a href="{{ path('fos_user_security_login') }}">Login</a> </li>
+          {% endif %}
         </ul>
       </div>
     </div>

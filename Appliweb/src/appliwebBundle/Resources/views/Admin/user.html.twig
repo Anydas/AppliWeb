@@ -25,9 +25,9 @@
            <tbody>
            {% for list in listUser %}
              <tr>
-             <td>&nbsp{{ list.pseudo }}</td>
+             <td>&nbsp{{ list.username }}</td>
              <td>&nbsp{{ list.email }}&nbsp</td>
-             {% if list.isban == 0 %}
+             {% if list.locked == 0 %}
              <td><a class="btn btn-danger" href="user?userid={{ list.id }}" role="button">Ban</a></td>
               {% else %}
                <td><a class="btn btn-success" href="user?useriddeb={{ list.id }}" role="button">UnBan</a></td>

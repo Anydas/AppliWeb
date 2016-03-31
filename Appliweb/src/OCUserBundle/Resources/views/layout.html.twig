@@ -1,0 +1,36 @@
+{# On affiche les messages flash que définissent les contrôleurs du bundle #}
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+
+
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+        <title>Cat list</title>
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+
+      </head>
+    <body>
+
+<br>
+<br>
+<br>
+
+ {% for key, message in app.session.flashbag.all() %}
+   <div class="alert alert-{{ key }}">
+     {{ message|trans({}, 'FOSUserBundle') }}
+   </div>
+ {% endfor %}
+
+ {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
+ {% block fos_user_content %}
+ {% endblock fos_user_content %}
+ {{ include("appliwebBundle:Advert:footer.html.twig") }}
+</body>
+</html>

@@ -16,25 +16,56 @@
 	  <br>
         <p>
 
-        {% for list in nom %}
+
         <center>
-        <a class="fancybox" href="Assets/Image/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>
+        <a class="fancybox" href="Assets/Image/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>
         <br>
-        {{ list.frenchname }}
+        {{ nom.frenchname }}
         <br>
-        {{ list.japanesename }}
+        {{ nom.japanesename }}
         <br>
-        {{ list.description }}
+        {{ nom.description }}
         <br>
-        {{ list.personality }}
+        {{ nom.personality }}
         <br>
-        {{ list.level }}
+        {{ nom.level }}
         <br>
-        <a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>
+        <a class="fancybox" href="Assets/Image/Memento/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/Memento/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>
         </center>
-        {% endfor %}
 
 
+        <table class="table table-bordered table-striped table-condensed">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Cat name</th>
+              <th>Trick</th>
+              <th>Post by</th>
+              <th>Vote</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for list in listTrick %}
+            {% if list.ispublish == 1 %}
+            <tr>
+
+              <td>&nbsp<a class="fancybox" href="Assets/Image/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+              <td>&nbsp{{ nom.frenchname }}&nbsp</td>
+
+              <td>&nbsp{{ list.trickdescription }}&nbsp</td>
+              {% for user in listUser %}
+              {% if list.iduser == user.id %}
+              <td>&nbsp{{ user.username }}&nbsp</td>
+              {% endif %}
+              {% endfor %}
+              <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
+                &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a>
+                <br>{{ list.nblike - list.nbdislike }}</td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
 
         </p>
         </div>

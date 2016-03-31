@@ -39,7 +39,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form:
         resources: ['bootstrap_3_layout.html.twig']
-    
+
 
 
 # Doctrine Configuration
@@ -71,3 +71,11 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fos_user:
+    db_driver:     orm                       # Le type de BDD à utiliser, nous utilisons l'ORM Doctrine depuis le début
+    firewall_name: main                      # Le nom du firewall derrière lequel on utilisera ces utilisateurs
+    user_class:    OCUserBundle\Entity\User # La classe de l'entité User que nous utilisons
+
+framework:
+    translator:      { fallback: %locale% }

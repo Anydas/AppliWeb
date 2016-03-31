@@ -38,11 +38,11 @@
              <td>&nbsp{{ list.trickdescription }}&nbsp</td>
              {% for user in listUser %}
             {% if list.iduser == user.id %}
-            <td>&nbsp{{ user.pseudo }}&nbsp</td>
+            <td>&nbsp{{ user.username }}&nbsp</td>
             {% endif %}
             {% endfor %}
              <td><a class="btn btn-primary" href="edittrick?trick={{ list.id }}&desc={{ list.trickdescription }}" role="button">Edit</a>
-             <a class="btn btn-danger" href="trick?trickid={{ list.id }}" role="button">Delete</a></td>
+             <a class="btn btn-danger" href="admintrick?trickid={{ list.id }}" role="button">Delete</a></td>
              </tr>
            {% endfor %}
            </tbody>

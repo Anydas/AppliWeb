@@ -59,5 +59,30 @@ body { background-color:#FFFFFF;
 	  transform: translateY(+50%);
            text-align: center;
           position: relative;
+}
+.form-signin{
+	width: 300px;
+	text-align: center;
+	margin: auto;
 
+}
+#test{
+	width: 300px;
+	text-align: center;
+	margin: auto;
+
+}
+
+#formsign{
+	transform: translateY(+50%);
+}
+
+#formregi{
+	width: 300px;
+	transform: translateY(+10%);
+	text-align: center;
+	margin: auto;
+}
+p{
+	text-align: justify;
 }

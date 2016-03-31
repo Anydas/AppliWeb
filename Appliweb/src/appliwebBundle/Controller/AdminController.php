@@ -39,13 +39,13 @@ class AdminController extends Controller
       {  $rep = $this
         ->getDoctrine()
         ->getManager()
-        ->getRepository('appliwebBundle:user')
+        ->getRepository('OCUserBundle:User')
         ;
         $em = $this->getDoctrine()->getManager();
 
         $cat = $rep->findOneById($req->query->get('userid'));
 
-        $cat->setIsBan(1);
+        $cat->setLocked(1);
 
         $em->flush();
 
@@ -55,13 +55,13 @@ class AdminController extends Controller
       {  $rep = $this
         ->getDoctrine()
         ->getManager()
-        ->getRepository('appliwebBundle:user')
+        ->getRepository('OCUserBundle:User')
         ;
         $em = $this->getDoctrine()->getManager();
 
         $cat = $rep->findOneById($req->query->get('useriddeb'));
 
-        $cat->setIsBan(0);
+        $cat->setLocked(0);
 
         $em->flush();
 
@@ -69,7 +69,7 @@ class AdminController extends Controller
       $repository = $this
       ->getDoctrine()
       ->getManager()
-      ->getRepository('appliwebBundle:user')
+      ->getRepository('OCUserBundle:User')
       ;
 
       $listuser = $repository->findAll();
@@ -243,7 +243,7 @@ class AdminController extends Controller
               $repositoryss = $this
               ->getDoctrine()
               ->getManager()
-              ->getRepository('appliwebBundle:user')
+              ->getRepository('OCUserBundle:User')
               ;
 
               $listTrick = $rep->findByIsPublish(0);
@@ -276,12 +276,6 @@ class AdminController extends Controller
 
           public function trickAction(Request $req)
           {
-            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-              $testrole="admin";
-            }else{
-              if ($this->get('security.context')->isGranted('ROLE_USER')) {
-                $testrole="user";
-              }else{$testrole="autre";}}
 
               if (null !== $req->query->get('trickid'))
               {  $rep = $this
@@ -312,7 +306,7 @@ class AdminController extends Controller
               $repositoryss = $this
               ->getDoctrine()
               ->getManager()
-              ->getRepository('appliwebBundle:user')
+              ->getRepository('OCUserBundle:User')
               ;
 
               $listTrick = $repository->findByIsPublish(1);
@@ -325,8 +319,7 @@ class AdminController extends Controller
                 'listTrick' => $listTrick,
                 'listCat' => $listCat,
                 'listUser' => $listUser,
-                'page' => 'trick',
-                'testrole' => $testrole
+                'page' => 'trick'
               )
             );
             return new Response($content);
@@ -335,13 +328,6 @@ class AdminController extends Controller
 
           public function edittrickAction(Request $request)
           {
-            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-              $testrole="admin";
-            }else{
-              if ($this->get('security.context')->isGranted('ROLE_USER')) {
-                $testrole="user";
-              }else{$testrole="autre";}}
-
               // On récupère l'EntityManager
               $em = $this->getDoctrine()->getManager();
 
@@ -385,20 +371,13 @@ class AdminController extends Controller
                   'form' => $form->createView(),
                   'id' => $idtrick,
                   'desc' => $desctrick,
-                  'page' => 'trick',
-                  'testrole' => $testrole
+                  'page' => 'trick'
                 ));}
                 return new Response($content);
               }
 
               public function editcatAction(Request $request)
               {
-                if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                  $testrole="admin";
-                }else{
-                  if ($this->get('security.context')->isGranted('ROLE_USER')) {
-                    $testrole="user";
-                  }else{$testrole="autre";}}
 
                   $id = $request->query->get('catid');
                   $defaultData = array('message' => 'Type your message here');
@@ -470,8 +449,7 @@ class AdminController extends Controller
                     ->get('templating')
                     ->render('appliwebBundle:Admin:editcat.html.twig', array(
                       'page' => 'cat-list',
-                      'form' => $form->createView(),
-                      'testrole' => $testrole
+                      'form' => $form->createView()
                     ));}
                     return new Response($content);
 

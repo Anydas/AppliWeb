@@ -58,7 +58,7 @@
              <td>&nbsp{{ list.level }}&nbsp</td>
              <td>&nbsp<a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
              <td><a class="btn btn-primary" href="editcat?catid={{ list.id }}" role="button">Edit</a>
-              <a class="btn btn-danger" href="cat-list?catid={{ list.id }}" role="button">Delete</a></td>
+              <a class="btn btn-danger" href="admincat-list?catid={{ list.id }}" role="button">Delete</a></td>
              </tr>
              {% endif %}
            {% endfor %}

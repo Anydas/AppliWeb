@@ -79,7 +79,7 @@
               <td>&nbsp{{ list.trickdescription }}&nbsp</td>
               {% for user in listUser %}
              {% if list.iduser == user.id %}
-             <td>&nbsp{{ user.pseudo }}&nbsp</td>
+             <td>&nbsp{{ user.username }}&nbsp</td>
              {% endif %}
              {% endfor %}
               <td><a class="btn btn-success" href="nopublish?trickid={{ list.id }}" role="button">Publish</a>

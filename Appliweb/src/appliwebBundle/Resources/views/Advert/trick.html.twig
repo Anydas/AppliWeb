@@ -23,7 +23,7 @@
             <th>Cat name</th>
             <th>Trick</th>
             <th>Post by</th>
-
+            <th>Vote</th>
           </tr>
         </thead>
         <tbody>
@@ -38,7 +38,7 @@
             <td>&nbsp{{ list.trickdescription }}&nbsp</td>
             {% for user in listUser %}
             {% if list.iduser == user.id %}
-            <td>&nbsp{{ user.pseudo }}&nbsp</td>
+            <td>&nbsp{{ user.username }}&nbsp</td>
             {% endif %}
             {% endfor %}
             <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
