@@ -2,55 +2,55 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-        <title>Trick</title>
-        {{ include("appliwebBundle:Advert:layout.html.twig") }}
-        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
-    </head>
-    <body>
-    <div class="container">
+<head>
+  <link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
+  <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+  <title>Trick</title>
+  {{ include("appliwebBundle:Advert:layout.html.twig") }}
+  {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+</head>
+<body>
+  <div class="container">
     <br>
-	  <br>
-	  <br>
-        <p>
+    <br>
+    <br>
+    <p>
 
-        <table class="table table-bordered table-striped table-condensed">
-           <thead>
-               <tr>
-                   <th>Image</th>
-                   <th>Cat name</th>
-                   <th>Trick</th>
-                   <th>Post by</th>
+      <table class="table table-bordered table-striped table-condensed">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Cat name</th>
+            <th>Trick</th>
+            <th>Post by</th>
 
-                   </tr>
-           </thead>
-           <tbody>
-           {% for list in listTrick %}
-             <tr>
-               {% for cat in listCat %}
-               {% if list.idcat == cat.id %}
-             <td>&nbsp<a class="fancybox" href="Assets/Image/{{ cat.frenchname }}.png" data-fancybox-group="gallery" title="{{ cat.frenchname }}"><img src="Assets/Image/{{ cat.frenchname }}.png" alt="{{ cat.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-             <td>&nbsp{{ cat.frenchname }}&nbsp</td>
-             {% endif %}
-             {% endfor %}
-             <td>&nbsp{{ list.trickdescription }}&nbsp</td>
-             {% for user in listUser %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for list in listTrick %}
+          <tr>
+            {% for cat in listCat %}
+            {% if list.idcat == cat.id %}
+            <td>&nbsp<a class="fancybox" href="Assets/Image/{{ cat.frenchname }}.png" data-fancybox-group="gallery" title="{{ cat.frenchname }}"><img src="Assets/Image/{{ cat.frenchname }}.png" alt="{{ cat.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+            <td>&nbsp{{ cat.frenchname }}&nbsp</td>
+            {% endif %}
+            {% endfor %}
+            <td>&nbsp{{ list.trickdescription }}&nbsp</td>
+            {% for user in listUser %}
             {% if list.iduser == user.id %}
             <td>&nbsp{{ user.pseudo }}&nbsp</td>
             {% endif %}
             {% endfor %}
             <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
-            &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a>
-              <br>{{ list.nblike }}&nbsp&nbsp&nbsp&nbsp&nbsp{{ list.nbdislike }}</td>
-             </tr>
-           {% endfor %}
-           </tbody>
-         </table>
+              &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a>
+              <br>{{ list.nblike - list.nbdislike }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
 
-        </p>
-        </div>
-        {{ include("appliwebBundle:Advert:footer.html.twig") }}
-    </body>
-</html>
+      </p>
+    </div>
+    {{ include("appliwebBundle:Advert:footer.html.twig") }}
+  </body>
+  </html>
