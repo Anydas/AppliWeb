@@ -11,9 +11,7 @@
 </head>
 <body>
   <div class="container">
-    <br>
-    <br>
-    <br>
+    
     <p>
 
       <table class="table table-bordered table-striped table-condensed">
@@ -23,7 +21,9 @@
             <th>Cat name</th>
             <th>Trick</th>
             <th>Post by</th>
+              {% if is_granted("ROLE_USER") %}
             <th>Vote</th>
+              {% endif %}
           </tr>
         </thead>
         <tbody>
@@ -41,9 +41,11 @@
             <td>&nbsp{{ user.username }}&nbsp</td>
             {% endif %}
             {% endfor %}
+            {% if is_granted("ROLE_USER") %}
             <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
               &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a>
               <br>{{ list.nblike - list.nbdislike }}</td>
+                {% endif %}
             </tr>
             {% endfor %}
           </tbody>

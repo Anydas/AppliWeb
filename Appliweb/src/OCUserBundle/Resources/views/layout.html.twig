@@ -6,31 +6,24 @@
 <html>
     <head>
 
-
+      {% set page = 'Profile' %}
 		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
 	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-        <title>Cat list</title>
-  
+        <title>Profile</title>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
-
+        {{ include("appliwebBundle:Advert:layout.html.twig") }}
       </head>
     <body>
 
-<br>
-<br>
-<br>
 
- {% for key, message in app.session.flashbag.all() %}
-   <div class="alert alert-{{ key }}">
-     {{ message|trans({}, 'FOSUserBundle') }}
-   </div>
- {% endfor %}
+
 
  {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
  {% block fos_user_content %}
  {% endblock fos_user_content %}
  {{ include("appliwebBundle:Advert:footer.html.twig") }}
-</body>
+    </body>
 </html>

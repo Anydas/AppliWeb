@@ -27,12 +27,7 @@ class AdminController extends Controller
 
   public function userAction(Request $req)
   {
-    if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-      $testrole="admin";
-    }else{
-      if ($this->get('security.context')->isGranted('ROLE_USER')) {
-        $testrole="user";
-      }else{$testrole="autre";}}
+
 
 
       if (null !== $req->query->get('userid'))
@@ -78,8 +73,7 @@ class AdminController extends Controller
       ->get('templating')
       ->render('appliwebBundle:Admin:user.html.twig', array(
         'page' => 'user',
-        'listUser' => $listuser,
-        'testrole' => $testrole
+        'listUser' => $listuser
       ));
       return new Response($content);
 
@@ -87,12 +81,7 @@ class AdminController extends Controller
 
     public function catlistAction(Request $req)
     {
-      if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-        $testrole="admin";
-      }else{
-        if ($this->get('security.context')->isGranted('ROLE_USER')) {
-          $testrole="user";
-        }else{$testrole="autre";}}
+
 
         if (null !== $req->query->get('catid'))
         {  $rep = $this
@@ -141,8 +130,7 @@ class AdminController extends Controller
             ->render('appliwebBundle:Admin:catlist.html.twig', array(
               'listCat' => $listCat,
               'page' => 'cat-list',
-              'form' => $form->createView(),
-              'testrole' => $testrole
+              'form' => $form->createView()
               )
             );}
             return new Response($content);
@@ -151,12 +139,7 @@ class AdminController extends Controller
 
           public function nopublishAction(Request $req)
           {
-            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-              $testrole="admin";
-            }else{
-              if ($this->get('security.context')->isGranted('ROLE_USER')) {
-                $testrole="user";
-              }else{$testrole="autre";}}
+
 
               if (null !== $req->query->get('catidrem'))
               {  $rep = $this
@@ -260,8 +243,7 @@ class AdminController extends Controller
                 'listTrick' => $listTrick,
                 'listCat2' => $listCat2,
                 'listUser' => $listUser,
-                'page' => 'nopublish',
-                'testrole' => $testrole
+                'page' => 'nopublish'
               )
             );
             return new Response($content);
@@ -334,11 +316,22 @@ class AdminController extends Controller
               $idtrick = $request->query->get('trick');
               $desctrick = $request->query->get('desc');
 
+              $repositor = $this
+              ->getDoctrine()
+              ->getManager()
+              ->getRepository('appliwebBundle:Trick')
+              ;
+
+              $trickactuel = $repositor->findOneById($idtrick);
+
+
               $defaultData = array('message' => 'Type your message here');
               $form = $this->createFormBuilder($defaultData)
-              ->add('description', 'textarea')
+              ->add('description', 'textarea',array('label' => 'Trick description : ','data' => $trickactuel->getTrickDescription()))
               ->add('send', 'submit')
               ->getForm();
+
+
 
               $form->handleRequest($request);
 
@@ -346,14 +339,7 @@ class AdminController extends Controller
                 // data is an array with "name", "email", and "message" keys
                 $data = $form->getData();
 
-                $repository = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository('appliwebBundle:Trick')
-                ;
 
-
-                $trickactuel = $repository->findOneById($idtrick);
                 $trickactuel->setTrickDescription($data['description']);
 
                 $em->flush();
@@ -380,16 +366,24 @@ class AdminController extends Controller
               {
 
                   $id = $request->query->get('catid');
+                  $repository = $this
+                  ->getDoctrine()
+                  ->getManager()
+                  ->getRepository('appliwebBundle:Cat')
+                  ;
+
+                  $catactuel = $repository->findOneById($id);
+
                   $defaultData = array('message' => 'Type your message here');
                   $form = $this->createFormBuilder($defaultData)
-                  ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3))))
-                  ->add('japanese_name', 'text')
-                  ->add('description', 'textarea')
-                  ->add('personality', 'text')
-                  ->add('level', 'integer')
-                  ->add('israre', 'checkbox',array('required' => false))
-                  ->add('image', 'file')
-                  ->add('memento', 'file')
+                  ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3)),'label' => 'Name : ','data' => $catactuel->getFrenchName() ))
+                  ->add('japanese_name', 'text',array('label' => 'Japanese name : ','data' => $catactuel->getJapaneseName()))
+                  ->add('description', 'textarea',array('label' => 'Description : ','data' => $catactuel->getDescription()))
+                  ->add('personality', 'text',array('label' => 'Personality : ','data' => $catactuel->getPersonality()))
+                  ->add('level', 'integer',array('label' => 'Level : ','data' => $catactuel->getLevel()))
+                  ->add('israre', 'checkbox',array('required' => false,'label' => 'Rare cat ? : ', 'data' => $catactuel->getIsRare()))
+                  ->add('image', 'file',array('required' => false,'label' => 'Cat image (not mandatory) : '))
+                  ->add('memento', 'file',array('required' => false,'label' => 'Memento image (not mandatory) : '))
                   ->add('send', 'submit')
                   ->getForm();
 
@@ -401,13 +395,7 @@ class AdminController extends Controller
 
                     $em = $this->getDoctrine()->getManager();
 
-                    $repository = $this
-                    ->getDoctrine()
-                    ->getManager()
-                    ->getRepository('appliwebBundle:Cat')
-                    ;
 
-                    $catactuel = $repository->findOneById($id);
                     if (null === $catactuel) {
                       throw new NotFoundHttpException("Le chat : ".$data['french_name']." n'existe pas.");
                     }
@@ -419,26 +407,28 @@ class AdminController extends Controller
                     $catactuel->setLevel($data['level']);
                     $catactuel->setIsRare($data['israre']);
 
-
+                    if($data['image'] != null){
                     $pos = strpos($data['image']->getClientOriginalName(), ".png");
                     if($pos === false){
 
                       throw new UnsupportedMediaTypeHttpException("Le format de l'image n'est pas respecté (png seulement !) : ".$data['image']->getClientOriginalName());
                     }
+                    $image1=new Image();
+                    $image1->setFile($data['image']);
+                    $image1->upload("Assets/Image",$data['french_name'].".png");
+                  }
 
+                    if($data['memento'] != null){
                     $poss = strpos($data['memento']->getClientOriginalName(), ".png");
                     if($poss === false){
 
                       throw new UnsupportedMediaTypeHttpException("Le format de l'image n'est pas respecté (png seulement !) : ".$data['image']->getClientOriginalName());
                     }
 
-                    $image1=new Image();
-                    $image1->setFile($data['image']);
-                    $image1->upload("Assets/Image",$data['french_name'].".png");
-
                     $image2=new Image();
                     $image2->setFile($data['memento']);
                     $image2->upload("Assets/Image/Memento",$data['french_name'].".png");
+                    }
 
                     $em->flush();
                     $content = new RedirectResponse('index');

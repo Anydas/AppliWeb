@@ -184,8 +184,8 @@ public function addtrickAction(Request $request)
   ->add('cat_name', 'entity', array(
     'class'    => 'appliwebBundle:Cat',
     'property' => 'French_name',
-    'multiple' => false))
-    ->add('description', 'textarea')
+    'multiple' => false,'label' => 'Cat name : '))
+    ->add('description', 'textarea',array('label' => 'Trick description : '))
     ->add('send', 'submit')
     ->getForm();
 
@@ -270,14 +270,14 @@ public function addtrickAction(Request $request)
 
       $defaultData = array('message' => 'Type your message here');
       $form = $this->createFormBuilder($defaultData)
-      ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3))))
-      ->add('japanese_name', 'text')
-      ->add('description', 'textarea')
-      ->add('personality', 'text')
-      ->add('level', 'integer')
-      ->add('israre', 'checkbox',array('required' => false))
-      ->add('image', 'file')
-      ->add('memento', 'file')
+      ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3)),'label' => 'Name : '))
+      ->add('japanese_name', 'text',array('label' => 'Japanese name : '))
+      ->add('description', 'textarea',array('label' => 'Description : '))
+      ->add('personality', 'text',array('label' => 'Personality : '))
+      ->add('level', 'integer',array('label' => 'Level : '))
+      ->add('israre', 'checkbox',array('required' => false,'label' => 'Rare cat ? : '))
+      ->add('image', 'file',array('label' => 'Cat image : '))
+      ->add('memento', 'file',array('label' => 'Memento image : '))
       ->add('send', 'submit')
       ->getForm();
 

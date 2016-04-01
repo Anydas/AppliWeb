@@ -4,6 +4,7 @@ html{
 }
 body { background-color:#FFFFFF;
 	  margin-bottom: 140px;
+		margin-top: 50px;
 
 }
 
@@ -66,6 +67,14 @@ body { background-color:#FFFFFF;
 	margin: auto;
 
 }
+.well{
+	width: 500px;
+	text-align: center;
+	margin: auto;
+	margin-top: 20px;
+}
+
+
 #test{
 	width: 300px;
 	text-align: center;
@@ -73,13 +82,26 @@ body { background-color:#FFFFFF;
 
 }
 
-#formsign{
-	transform: translateY(+50%);
+#profile{
+	width: 200px;
+}
+#sect{
+  margin: auto;
+	float: left;
+}
+#centre{
+	width: 500px;
+  margin: auto;
+
+}
+
+#tableau{
+margin-top: 50px;
+
 }
 
 #formregi{
 	width: 300px;
-	transform: translateY(+10%);
 	text-align: center;
 	margin: auto;
 }

@@ -17,9 +17,7 @@
       </head>
     <body>
     <div class="container">
-	  <br>
-	  <br>
-	  <br>
+	  
         <p>
           <div class="well">
             {% form_theme form 'bootstrap_3_layout.html.twig' %}
@@ -89,7 +87,7 @@
                   <td>&nbsp{{ list.personality }}&nbsp</td>
                   <td>&nbsp{{ list.level }}&nbsp</td>
                   <td>&nbsp<a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-                  
+
                   </tr>
                   {% endif %}
                 {% endfor %}

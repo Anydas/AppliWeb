@@ -11,29 +11,34 @@
     </head>
 <body>
 <div class="container">
-	  <br>
-	  <br>
-	  <br>
+        <center><h1>About {{ nom.frenchname }}</h1></center>
         <p>
 
-
-        <center>
+       <div id="centre">
+        <div id="sect">
         <a class="fancybox" href="Assets/Image/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>
+        </div>
+        <div id="sect">
+        &nbsp&nbsp<B>Name :</B> {{ nom.frenchname }}
         <br>
-        {{ nom.frenchname }}
+        &nbsp&nbsp<B>Japanese name :</B> {{ nom.japanesename }}
         <br>
-        {{ nom.japanesename }}
+        &nbsp&nbsp<B>Description :</B> {{ nom.description }}
+          </div>
+
+        <div id="sect">
+        &nbsp&nbsp<B>Personality :</B> {{ nom.personality }}
         <br>
-        {{ nom.description }}
-        <br>
-        {{ nom.personality }}
-        <br>
-        {{ nom.level }}
-        <br>
+        &nbsp&nbsp<B>Level :</B> {{ nom.level }}
+        </div>
+        <div id="sect">
         <a class="fancybox" href="Assets/Image/Memento/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/Memento/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>
-        </center>
+        </div>
+        <br>
+        <br>
+        </div>
 
-
+        <div id="tableau">
         <table class="table table-bordered table-striped table-condensed">
           <thead>
             <tr>
@@ -41,7 +46,7 @@
               <th>Cat name</th>
               <th>Trick</th>
               <th>Post by</th>
-              <th>Vote</th>
+
             </tr>
           </thead>
           <tbody>
@@ -58,14 +63,11 @@
               <td>&nbsp{{ user.username }}&nbsp</td>
               {% endif %}
               {% endfor %}
-              <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
-                &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a>
-                <br>{{ list.nblike - list.nbdislike }}</td>
-              </tr>
               {% endif %}
               {% endfor %}
             </tbody>
           </table>
+          </div>
 
         </p>
         </div>
