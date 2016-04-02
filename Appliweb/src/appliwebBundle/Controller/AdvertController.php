@@ -17,7 +17,10 @@ use appliwebBundle\Entity\Trick;
 use appliwebBundle\Entity\Cat_goodies;
 use appliwebBundle\Entity\Goodies;
 use appliwebBundle\Entity\Image;
+use appliwebBundle\Entity\Vote_user;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -185,7 +188,7 @@ public function addtrickAction(Request $request)
     'class'    => 'appliwebBundle:Cat',
     'property' => 'French_name',
     'multiple' => false,'label' => 'Cat name : '))
-    ->add('description', 'textarea',array('label' => 'Trick description : '))
+    ->add('description', 'textarea',array('constraints' => new Length(array('min' => 10,'max' => 5000)),'label' => 'Trick description : '))
     ->add('send', 'submit')
     ->getForm();
 
@@ -246,7 +249,7 @@ public function addtrickAction(Request $request)
       $em->flush();
 
       //return $this->redirect($this->generateUrl('index'));
-      $content = new RedirectResponse('index');
+      $content = new RedirectResponse('redir');
 
     }else{
 
@@ -270,14 +273,14 @@ public function addtrickAction(Request $request)
 
       $defaultData = array('message' => 'Type your message here');
       $form = $this->createFormBuilder($defaultData)
-      ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3)),'label' => 'Name : '))
-      ->add('japanese_name', 'text',array('label' => 'Japanese name : '))
-      ->add('description', 'textarea',array('label' => 'Description : '))
-      ->add('personality', 'text',array('label' => 'Personality : '))
-      ->add('level', 'integer',array('label' => 'Level : '))
+      ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3,'max' => 20)),'label' => 'Name : '))
+      ->add('japanese_name', 'text',array('constraints' => new Length(array('min' => 3,'max' => 45)),'label' => 'Japanese name : '))
+      ->add('description', 'textarea',array('constraints' => new Length(array('min' => 3,'max' => 30)),'label' => 'Description : '))
+      ->add('personality', 'text',array('constraints' => new Length(array('min' => 3,'max' => 20)),'label' => 'Personality : '))
+      ->add('level', 'integer',array('constraints' => new Range(array('min' => 1,'max' => 999)),'label' => 'Level : '))
       ->add('israre', 'checkbox',array('required' => false,'label' => 'Rare cat ? : '))
-      ->add('image', 'file',array('label' => 'Cat image : '))
-      ->add('memento', 'file',array('label' => 'Memento image : '))
+      ->add('image', 'file',array('constraints' => new File(array('mimeTypes' => 'image/png')),'label' => 'Cat image : '))
+      ->add('memento', 'file',array('constraints' => new File(array('mimeTypes' => 'image/png')),'label' => 'Memento image : '))
       ->add('send', 'submit')
       ->getForm();
 
@@ -313,17 +316,7 @@ public function addtrickAction(Request $request)
         $cat->setIsPublish(0);
 
 
-        $pos = strpos($data['image']->getClientOriginalName(), ".png");
-        if($pos === false){
-
-          throw new UnsupportedMediaTypeHttpException("Le format de l'image n'est pas respecté (png seulement !) : ".$data['image']->getClientOriginalName());
-        }
-
-        $poss = strpos($data['memento']->getClientOriginalName(), ".png");
-        if($poss === false){
-
-          throw new UnsupportedMediaTypeHttpException("Le format de l'image n'est pas respecté (png seulement !) : ".$data['image']->getClientOriginalName());
-        }
+      
 
         $image1=new Image();
         $image1->setFile($data['image']);
@@ -344,7 +337,7 @@ public function addtrickAction(Request $request)
         $em->flush();
 
         //return $this->redirect($this->generateUrl('index'));
-        $content = new RedirectResponse('index');
+        $content = new RedirectResponse('redir');
       }else{
 
         //fonctionne !
@@ -375,9 +368,12 @@ public function addtrickAction(Request $request)
 
           $trick = $rep->findOneById($req->query->get('votegid'));
           $nblike= $trick->getNbLike();
-
+          $vote=new Vote_user();
+          $vote->setIdUser($this->container->get('security.context')->getToken()->getUser()->getId());
+          $vote->setIdTrick($trick->getId());
           $trick->setNbLike($nblike+1);
           $em->persist($trick);
+          $em->persist($vote);
           $em->flush();
 
         }
@@ -390,9 +386,13 @@ public function addtrickAction(Request $request)
           $em = $this->getDoctrine()->getManager();
 
           $trick = $rep->findOneById($req->query->get('votebid'));
+          $vote=new Vote_user();
+          $vote->setIdUser($this->container->get('security.context')->getToken()->getUser()->getId());
+          $vote->setIdTrick($trick->getId());
           $nblike= $trick->getNbDislike();
 
           $trick->setNbDislike($nblike+1);
+          $em->persist($vote);
           $em->persist($trick);
           $em->flush();
 
@@ -413,10 +413,16 @@ public function addtrickAction(Request $request)
         ->getManager()
         ->getRepository('OCUserBundle:User')
         ;
-
+        $repos = $this
+        ->getDoctrine()
+        ->getManager()
+        ->getRepository('appliwebBundle:Vote_user')
+        ;
+        $user= $this->container->get('security.context')->getToken()->getUser();
         $listTrick = $repository->findByIsPublish(1);
         $listCat = $repositorys->findAll();
         $listUser = $repositoryss->findAll();
+        $listVote = $repos->findByIdUser($user->getId());
 
         $content = $this
         ->get('templating')
@@ -424,6 +430,8 @@ public function addtrickAction(Request $request)
           'listTrick' => $listTrick,
           'listCat' => $listCat,
           'listUser' => $listUser,
+          'listVote' => $listVote,
+          'currentUser' => $user,
           'page' => 'trick'
         )
       );

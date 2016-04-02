@@ -18,6 +18,8 @@ use appliwebBundle\Entity\Cat_goodies;
 use appliwebBundle\Entity\Goodies;
 use appliwebBundle\Entity\Image;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -89,10 +91,20 @@ class AdminController extends Controller
           ->getManager()
           ->getRepository('appliwebBundle:Cat')
           ;
+          $repos = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('appliwebBundle:Trick')
+          ;
           $em = $this->getDoctrine()->getManager();
 
           $cat = $rep->findOneById($req->query->get('catid'));
+          $listtrick = $repos->findByIdCat($req->query->get('catid'));
 
+          foreach ($listtrick as $trick) {
+            // $advert est une instance de Advert
+          $em->remove($trick);
+          }
           $em->remove($cat);
 
           $em->flush();
@@ -147,9 +159,22 @@ class AdminController extends Controller
                 ->getManager()
                 ->getRepository('appliwebBundle:Cat')
                 ;
+
+                $repos = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('appliwebBundle:Trick')
+                ;
+
                 $em = $this->getDoctrine()->getManager();
 
                 $cat = $rep->findOneById($req->query->get('catidrem'));
+                $listtrick = $repos->findByIdCat($req->query->get('catidrem'));
+
+                foreach ($listtrick as $trick) {
+                  // $advert est une instance de Advert
+                $em->remove($trick);
+                }
 
                 $em->remove($cat);
 
@@ -327,7 +352,7 @@ class AdminController extends Controller
 
               $defaultData = array('message' => 'Type your message here');
               $form = $this->createFormBuilder($defaultData)
-              ->add('description', 'textarea',array('label' => 'Trick description : ','data' => $trickactuel->getTrickDescription()))
+              ->add('description', 'textarea',array('constraints' => new Length(array('min' => 10,'max' => 5000)),'label' => 'Trick description : ','data' => $trickactuel->getTrickDescription()))
               ->add('send', 'submit')
               ->getForm();
 
@@ -345,7 +370,7 @@ class AdminController extends Controller
                 $em->flush();
 
                 //return $this->redirect($this->generateUrl('index'));
-                $content = new RedirectResponse('index');
+                $content = new RedirectResponse('redir');
 
               }else{
 
@@ -376,14 +401,14 @@ class AdminController extends Controller
 
                   $defaultData = array('message' => 'Type your message here');
                   $form = $this->createFormBuilder($defaultData)
-                  ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3)),'label' => 'Name : ','data' => $catactuel->getFrenchName() ))
-                  ->add('japanese_name', 'text',array('label' => 'Japanese name : ','data' => $catactuel->getJapaneseName()))
-                  ->add('description', 'textarea',array('label' => 'Description : ','data' => $catactuel->getDescription()))
-                  ->add('personality', 'text',array('label' => 'Personality : ','data' => $catactuel->getPersonality()))
-                  ->add('level', 'integer',array('label' => 'Level : ','data' => $catactuel->getLevel()))
+                  ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3,'max' => 20)),'label' => 'Name : ','data' => $catactuel->getFrenchName() ))
+                  ->add('japanese_name', 'text',array('constraints' => new Length(array('min' => 3,'max' => 45)),'label' => 'Japanese name : ','data' => $catactuel->getJapaneseName()))
+                  ->add('description', 'textarea',array('constraints' => new Length(array('min' => 3,'max' => 30)),'label' => 'Description : ','data' => $catactuel->getDescription()))
+                  ->add('personality', 'text',array('constraints' => new Length(array('min' => 3,'max' => 20)),'label' => 'Personality : ','data' => $catactuel->getPersonality()))
+                  ->add('level', 'integer',array('constraints' => new Range(array('min' => 1,'max' => 999)),'label' => 'Level : ','data' => $catactuel->getLevel()))
                   ->add('israre', 'checkbox',array('required' => false,'label' => 'Rare cat ? : ', 'data' => $catactuel->getIsRare()))
-                  ->add('image', 'file',array('required' => false,'label' => 'Cat image (not mandatory) : '))
-                  ->add('memento', 'file',array('required' => false,'label' => 'Memento image (not mandatory) : '))
+                  ->add('image', 'file',array('constraints' => new File(array('mimeTypes' => 'image/png')),'required' => false,'label' => 'Cat image (not mandatory) : '))
+                  ->add('memento', 'file',array('constraints' => new File(array('mimeTypes' => 'image/png')),'required' => false,'label' => 'Memento image (not mandatory) : '))
                   ->add('send', 'submit')
                   ->getForm();
 
@@ -408,22 +433,13 @@ class AdminController extends Controller
                     $catactuel->setIsRare($data['israre']);
 
                     if($data['image'] != null){
-                    $pos = strpos($data['image']->getClientOriginalName(), ".png");
-                    if($pos === false){
 
-                      throw new UnsupportedMediaTypeHttpException("Le format de l'image n'est pas respecté (png seulement !) : ".$data['image']->getClientOriginalName());
-                    }
                     $image1=new Image();
                     $image1->setFile($data['image']);
                     $image1->upload("Assets/Image",$data['french_name'].".png");
                   }
 
                     if($data['memento'] != null){
-                    $poss = strpos($data['memento']->getClientOriginalName(), ".png");
-                    if($poss === false){
-
-                      throw new UnsupportedMediaTypeHttpException("Le format de l'image n'est pas respecté (png seulement !) : ".$data['image']->getClientOriginalName());
-                    }
 
                     $image2=new Image();
                     $image2->setFile($data['memento']);
@@ -431,7 +447,7 @@ class AdminController extends Controller
                     }
 
                     $em->flush();
-                    $content = new RedirectResponse('index');
+                    $content = new RedirectResponse('redir');
                   }else {
 
 

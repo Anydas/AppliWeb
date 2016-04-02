@@ -57,3 +57,7 @@ AdminCat_list:
 AdminTrick:
     path:     /admintrick
     defaults: { _controller: appliwebBundle:Admin:trick }
+
+Redirection:
+    path:     /redir
+    defaults: { _controller: appliwebBundle:Redirection:redir }

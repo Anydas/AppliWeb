@@ -1,0 +1,25 @@
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+       <meta http-equiv="refresh" content="5;{{path('Homepage')}}" />
+		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.min.css') }}" />
+	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+        <title>Home</title>
+        {{ include("appliwebBundle:Advert:layout.html.twig") }}
+
+    </head>
+<body>
+<div class="container">
+<br>
+  <div class="alert alert-success">
+<strong>Success! :</strong> Saved change.
+</div>
+
+
+
+</div>
+{{ include("appliwebBundle:Advert:footer.html.twig") }}
+    </body>
+</html>

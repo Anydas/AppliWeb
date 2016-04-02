@@ -11,7 +11,7 @@
 </head>
 <body>
   <div class="container">
-    
+
     <p>
 
       <table class="table table-bordered table-striped table-condensed">
@@ -27,6 +27,8 @@
           </tr>
         </thead>
         <tbody>
+        {% set test1 = 0 %}
+
           {% for list in listTrick %}
           <tr>
             {% for cat in listCat %}
@@ -41,10 +43,22 @@
             <td>&nbsp{{ user.username }}&nbsp</td>
             {% endif %}
             {% endfor %}
+
             {% if is_granted("ROLE_USER") %}
-            <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
-              &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a>
-              <br>{{ list.nblike - list.nbdislike }}</td>
+
+              {% for vote in listVote %}
+
+              {% if vote.idtrick == list.id   %}
+              {% set test1 = 1 %}
+              {% endif %}
+                  {% endfor %}
+                  {%  if(test1 == 1)%}
+                    <td>Score : {{ list.nblike - list.nbdislike }}</td>
+                  {% else %}
+                  <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
+                    &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a></td>
+                  {% endif %}
+                    {% set test1 = 0 %}
                 {% endif %}
             </tr>
             {% endfor %}
