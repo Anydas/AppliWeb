@@ -3,104 +3,159 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
-    <head>
+<head>
+  <!-- titre -->
+  <title>Cat list</title>
+  <!-- menu -->
+  {{ include("appliwebBundle:Advert:layout.html.twig") }}
+</head>
+<body>
+  <!-- container -->
+  <div class="container">
 
-
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-        <title>Cat list</title>
-        {{ include("appliwebBundle:Advert:layout.html.twig") }}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
-
-      </head>
-    <body>
-    <div class="container">
-
-        <p>
-          <div class="well">
-            {% form_theme form 'bootstrap_3_layout.html.twig' %}
-            {{ form(form) }}
-          </div>
-          <br>
-          <div class="tabbed_area">
-            <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#content_1">Normal cat</a></li>
-    <li><a data-toggle="tab" href="#content_2">Rare cat</a></li>
-  </ul>
-  <div class="tab-content">
-  <div id="content_1" class="tab-pane fade in active">
-        <table class="table table-bordered table-striped table-condensed">
-           <thead>
-               <tr>
-                   <th>Image</th>
-                   <th>Nom</th>
+    <p>
+      <!-- form -->
+      <div class="well">
+        <!-- theme bootstrap pour le form -->
+        {% form_theme form 'bootstrap_3_layout.html.twig' %}
+        <!-- affichage du form -->
+        {{ form(form) }}
+      </div>
+      <br>
+      <!-- onglet -->
+      <div class="tabbed_area">
+        <ul class="nav nav-tabs">
+          <!-- lien -->
+          <li class="active"><a data-toggle="tab" href="#content_1">Normal cat</a></li>
+          <li><a data-toggle="tab" href="#content_2">Rare cat</a></li>
+        </ul>
+        <div class="tab-content">
+          <!-- onglet1 -->
+          <div id="content_1" class="tab-pane fade in active">
+            <!-- tableau -->
+            <table class="table table-bordered table-striped table-condensed">
+              <!-- en tete -->
+              <thead>
+                <tr>
+                  <!-- colone1 -->
+                  <th>Image</th>
+                  <!-- colone2 -->
+                  <th>Nom</th>
+                  <!-- colone3 -->
                   <th>Nom </th>
-                   <th>Description</th>
-                   <th>Personality</th>
-                   <th>Level</th>
-                   <th>Memento</th>
-                   <th>Edit</th>
-                   </tr>
-           </thead>
-           <tbody>
-           {% for list in listCat %}
-          {% if list.israre == 0 %}
-             <tr>
-             <td>&nbsp<a class="fancybox" href="Assets/Image/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-             <td>&nbsp<a class="btn btn-info" href="infocat?chat={{ list.frenchname }}" role="button">{{ list.frenchname }} </a>&nbsp</td>
-             <td>&nbsp{{ list.japanesename }}&nbsp</td>
-             <td>&nbsp{{ list.description }}&nbsp</td>
-             <td>&nbsp{{ list.personality }}&nbsp</td>
-             <td>&nbsp{{ list.level }}&nbsp</td>
-             <td>&nbsp<a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-             <td><a class="btn btn-primary" href="editcat?catid={{ list.id }}" role="button">Edit</a>
-              <a class="btn btn-danger" href="admincat-list?catid={{ list.id }}" role="button">Delete</a></td>
-             </tr>
-             {% endif %}
-           {% endfor %}
-           </tbody>
-         </table>
-           </div>
-           <div id="content_2" class="tab-pane fade">
-             <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Nom</th>
-                       <th>Nom </th>
-                        <th>Description</th>
-                        <th>Personality</th>
-                        <th>Level</th>
-                        <th>Memento</th>
-                        <th>Edit</th>
-                        </tr>
-                </thead>
-                <tbody>
+                  <!-- colone4 -->
+                  <th>Description</th>
+                  <!-- colone5 -->
+                  <th>Personality</th>
+                  <!-- colone6 -->
+                  <th>Level</th>
+                  <!-- colone7 -->
+                  <th>Memento</th>
+                  <!-- colone8 -->
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <!-- body du tab -->
+              <tbody>
+                <!-- affichage de la liste des chats si non rare-->
                 {% for list in listCat %}
-               {% if list.israre == 1 %}
-                  <tr>
+                {% if list.israre == 0 %}
+                <tr>
+                  <!-- colone1 -->
                   <td>&nbsp<a class="fancybox" href="Assets/Image/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+                  <!-- colone2 -->
                   <td>&nbsp<a class="btn btn-info" href="infocat?chat={{ list.frenchname }}" role="button">{{ list.frenchname }} </a>&nbsp</td>
+                  <!-- colone3 -->
                   <td>&nbsp{{ list.japanesename }}&nbsp</td>
+                  <!-- colone4 -->
                   <td>&nbsp{{ list.description }}&nbsp</td>
+                  <!-- colone5 -->
                   <td>&nbsp{{ list.personality }}&nbsp</td>
+                  <!-- colone6 -->
                   <td>&nbsp{{ list.level }}&nbsp</td>
+                  <!-- colone7 -->
                   <td>&nbsp<a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-                  <td><a class="btn btn-primary" href="editcat?catid={{ list.id }}" role="button">Edit</a>
-                   <a class="btn btn-danger" href="admincat-list?catid={{ list.id }}" role="button">Delete</a></td>
+                  <!-- colone8 -->
+                  <td>
+                    <!-- edition -->
+                    <a class="btn btn-primary" href="editcat?catid={{ list.id }}" role="button">Edit</a>
+                    <!-- supression -->
+                    <a class="btn btn-danger" href="admincat-list?catid={{ list.id }}" role="button">Delete</a></td>
                   </tr>
                   {% endif %}
-                {% endfor %}
+                  {% endfor %}
+                  <!-- fin body tab -->
                 </tbody>
+                <!-- fin tableau -->
               </table>
-           </div>
+              <!-- fin onglet -->
+            </div>
+            <!-- onglet 2 -->
+            <div id="content_2" class="tab-pane fade">
+              <!-- tableau -->
+              <table class="table table-bordered table-striped table-condensed">
+                <!-- entete -->
+                <thead>
+                  <tr>
+                    <!-- colone1 -->
+                    <th>Image</th>
+                    <!-- colone2 -->
+                    <th>Nom</th>
+                    <!-- colone3 -->
+                    <th>Nom </th>
+                    <!-- colone4 -->
+                    <th>Description</th>
+                    <!-- colone5 -->
+                    <th>Personality</th>
+                    <!-- colone6 -->
+                    <th>Level</th>
+                    <!-- colone7 -->
+                    <th>Memento</th>
+                    <!-- colone8 -->
+                    <th>Edit</th>
+                  </tr>
+                </thead>
+                <!-- body du tableau -->
+                <tbody>
+                  <!-- affichage des chat rare -->
+                  {% for list in listCat %}
+                  {% if list.israre == 1 %}
+                  <tr>
+                    <!-- colone1 -->
+                    <td>&nbsp<a class="fancybox" href="Assets/Image/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+                    <!-- colone2 -->
+                    <td>&nbsp<a class="btn btn-info" href="infocat?chat={{ list.frenchname }}" role="button">{{ list.frenchname }} </a>&nbsp</td>
+                    <!-- colone3 -->
+                    <td>&nbsp{{ list.japanesename }}&nbsp</td>
+                    <!-- colone4 -->
+                    <td>&nbsp{{ list.description }}&nbsp</td>
+                    <!-- colone5 -->
+                    <td>&nbsp{{ list.personality }}&nbsp</td>
+                    <!-- colone6 -->
+                    <td>&nbsp{{ list.level }}&nbsp</td>
+                    <!-- colone7 -->
+                    <td>&nbsp<a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+                    <!-- colone8 -->
+                    <td>
+                      <!-- edit -->
+                      <a class="btn btn-primary" href="editcat?catid={{ list.id }}" role="button">Edit</a>
+                      <!-- delete -->
+                      <a class="btn btn-danger" href="admincat-list?catid={{ list.id }}" role="button">Delete</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    <!-- fin du body du tableau -->
+                  </tbody>
+                  <!-- fin du tableau -->
+                </table>
+                <!-- fin de l'onglet -->
+              </div>
 
-       </div>
-   </div>
-</div>
-        </p>
+            </div>
+          </div>
+        </div>
+      </p>
+      <!-- footer -->
       {{ include("appliwebBundle:Advert:footer.html.twig") }}
     </body>
-</html>
+    </html>

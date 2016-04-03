@@ -1,0 +1,9 @@
+
+
+soap:
+    path:     /soap
+    defaults: { _controller: SoapBundle:HelloService:index }
+
+reponse:
+    path:     /reponse
+    defaults: { _controller: SoapBundle:HelloService:reponse }

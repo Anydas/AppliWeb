@@ -1,0 +1,115 @@
+<?php
+
+require_once ("Classes\Vote_user.php");
+require_once ("Classes\Goodies.php");
+require_once ("Classes\Cat.php");
+require_once ("Classes\Trick.php");
+require_once ("Classes\Cat_goodies.php");
+require_once ("Classes\Food.php");
+require_once ("Classes\Cat_food.php");
+
+
+class AdvertControllerTest extends \PHPUnit_Framework_TestCase
+{
+    public function testCat()
+    {
+
+        $cat=new Cat();
+        $cat->setFrenchName('Spooky');
+        $cat->setJapaneseName('Spooky');
+        $cat->setDescription('trolololo');
+        $cat->setPersonality('perso');
+        $cat->setLevel(35);
+        $cat->setIsRare(1);
+        $cat->setIsPublish(0);
+        $this->assertEquals("Spice", "Spice");
+        $this->assertEquals("trolololo", $cat->getDescription()); 
+        $this->assertEquals(35, $cat->getLevel()); 		
+        $this->assertEquals(1, $cat->getIsRare()); 		
+        $this->assertEquals("perso", $cat->getPersonality()); 		
+        $this->assertEquals(0, $cat->getIsPublish()); 				
+    }
+	
+	public function testCat_food()
+    {
+
+        $cat=new Cat_food();
+        $cat->setIdCat(5);
+        $cat->setIdFood(6);
+        $this->assertEquals($cat->getIdCat(), $cat->getIdFood());
+        			
+    }
+	
+	public function testFood()
+    {
+
+        $food=new Food();
+        $food->setName('Food');
+        $food->setDescription('food-food');
+        $food->setPrice(35);
+        $food->setQuantity(2);
+        $this->assertEquals("Food", $food->getName());
+        $this->assertEquals("food-food", $food->getDescription()); 
+        $this->assertEquals(35, $food->getPrice()); 		
+        $this->assertEquals(1, $food->getQuantity()); 						
+    }
+	
+	public function testTrick()
+    {
+
+        $trick=new Trick();
+        $trick->setIdCat(6);
+        $trick->setIdUser(1);
+        $trick->setTrickDescription('trick');
+        $trick->setNbDislike(3);
+        $trick->setNbLike(1);
+        $trick->setIsPublish(1);
+        $this->assertEquals(3, $trick->getIdCat());
+        $this->assertEquals("trick", $trick->getTrickDescription()); 
+        $this->assertEquals(35, $trick->getIdUser()); 		
+        $this->assertEquals(1, $trick->getNbLike()); 		
+        $this->assertEquals(45, $trick->getNbDislike()); 		
+        $this->assertEquals(0, $trick->getIsPublish()); 				
+    }
+	
+	public function testGoodies()
+    {
+
+        $good=new Goodies();
+        $good->setName('goodies1');
+        $good->setDescription('desc');
+        $good->setCategory('category');
+        $good->setSize('size');
+        $good->setPrice(15);
+		$good->setFit(15);
+        $good->setIsGold(0);
+        $this->assertEquals("goodies1",  $good->getName());
+        $this->assertEquals("desc", $good->getDescription()); 		
+        $this->assertEquals(35, $good->getPrice()); 		
+        $this->assertEquals(1, $good->getIsGold()); 		
+        $this->assertEquals("size", $good->getSize()); 		
+        $this->assertEquals(5, $good->getFit()); 				
+    }
+	
+	public function testCat_goodies()
+    {
+
+        $good_cat=new Cat_goodies();
+        $good_cat->setIdCat(365);
+        $good_cat->setIdGoodies(365);
+        $this->assertEquals($good_cat->getIdCat(), $good_cat->getIdGoodies());		
+    }
+	
+	public function testVote_user()
+    {
+
+        $vote=new Vote_user();
+        $vote->setIdUser(15);
+		$vote->setIdTrick(18);		
+        $this->assertEquals($vote->getIdTrick(), $vote->getIdUser()); 		
+        $this->assertEquals(18, $vote->getIdTrick()); 		
+				
+    }
+	
+	
+}

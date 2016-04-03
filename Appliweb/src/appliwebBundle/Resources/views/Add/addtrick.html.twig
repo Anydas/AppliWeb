@@ -3,24 +3,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+      <!-- titre de la page -->
         <title>Add a trick</title>
+        <!-- menu -->
         {{ include("appliwebBundle:Advert:layout.html.twig") }}
     </head>
     <body>
+      <!-- container -->
     <div class="container">
 	    <p>
+        <!-- form -->
         <div class="well">
+          <!-- theme bootstrap pour le form -->
           {% form_theme form 'bootstrap_3_layout.html.twig' %}
+          <!-- affichage du form -->
           {{ form(form) }}
         </div>
-
-
-
-
         </p>
         </div>
+        <!-- footer -->
         {{ include("appliwebBundle:Advert:footer.html.twig") }}
     </body>
 </html>

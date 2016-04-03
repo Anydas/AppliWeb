@@ -26,51 +26,57 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AdminController extends Controller
 {
-
+  //fonction de vue des utilisateurs et de ban
   public function userAction(Request $req)
   {
-
-
-
+      //on recupere l'id de l'utilisateur que l'on veut ban passé en param
+      //grace a la methode get
       if (null !== $req->query->get('userid'))
-      {  $rep = $this
+      {
+        //accé au repository User
+        $rep = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('OCUserBundle:User')
         ;
+        // On récupère l'EntityManager
         $em = $this->getDoctrine()->getManager();
-
-        $cat = $rep->findOneById($req->query->get('userid'));
-
-        $cat->setLocked(1);
-
+        //on recupere l'user defini par l'id userid
+        $user = $rep->findOneById($req->query->get('userid'));
+        //on place son attribut locked à true
+        $user->setLocked(1);
+        //on flush tout dans la bdd
         $em->flush();
 
       }
-
+      //on recupere l'id de l'utilisateur que l'on veut deban passé en param
+      //grace a la methode get
       if (null !== $req->query->get('useriddeb'))
-      {  $rep = $this
+      {   // accé au repository user
+         $rep = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('OCUserBundle:User')
         ;
+        // On récupère l'EntityManager
         $em = $this->getDoctrine()->getManager();
-
-        $cat = $rep->findOneById($req->query->get('useriddeb'));
-
-        $cat->setLocked(0);
-
+        //on recupere l'user defini par l'id useriddeb
+        $user = $rep->findOneById($req->query->get('useriddeb'));
+        //on place son attribut locked à false
+        $user->setLocked(0);
+        //on flush tout dans la bdd
         $em->flush();
 
       }
+      // accé au repository user
       $repository = $this
       ->getDoctrine()
       ->getManager()
       ->getRepository('OCUserBundle:User')
       ;
-
+      // on recupere tous les utilisateurs
       $listuser = $repository->findAll();
-
+      // on renvoie les données pour la vue
       $content = $this
       ->get('templating')
       ->render('appliwebBundle:Admin:user.html.twig', array(
@@ -80,36 +86,48 @@ class AdminController extends Controller
       return new Response($content);
 
     }
-
+    // fonction d'affichage des chats
     public function catlistAction(Request $req)
     {
 
-
+      //on recupere l'id du chat que l'on veut supprimer
+      //grace a la methode get
         if (null !== $req->query->get('catid'))
-        {  $rep = $this
+        {
+          // accé au repository cat
+          $rep = $this
           ->getDoctrine()
           ->getManager()
           ->getRepository('appliwebBundle:Cat')
           ;
+            // accé au repository trick
           $repos = $this
           ->getDoctrine()
           ->getManager()
           ->getRepository('appliwebBundle:Trick')
           ;
+          // On récupère l'EntityManager
           $em = $this->getDoctrine()->getManager();
-
+          //On recupere le chat correspondant à l'id
           $cat = $rep->findOneById($req->query->get('catid'));
+          //on recupere toute les atuces de ce chat
           $listtrick = $repos->findByIdCat($req->query->get('catid'));
-
+          // on supprime toute les astuce de ce chats
+          // bon la bdd est en cascade et est cencé supprimer toute les astuces
+          //elle meme si on supprime un chat
           foreach ($listtrick as $trick) {
-            // $advert est une instance de Advert
+            // on supprime les astuces
           $em->remove($trick);
           }
+          //on supprime le chat
           $em->remove($cat);
-
+          //on sauvegarde dans la bdd
           $em->flush();
 
         }
+        //generation d'un formulaire avec une liste de chat
+        //permet a l'user de selectionné un chat et d'etre envoyé sur la page
+        // du chat correspondant
         $defaultData = array('message' => 'Type your message here');
         $form = $this->createFormBuilder($defaultData)
         ->add('cat_name', 'entity', array(
@@ -120,23 +138,25 @@ class AdminController extends Controller
           ->getForm();
 
           $form->handleRequest($req);
-
+          //si le formulaire est valide on rentre dans la boucle
           if ($form->isValid()) {
-            // data is an array with "name", "email", and "message" keys
+            // on recupere les données du formulaire
             $data = $form->getData();
+            //on renvoie vers la page du chat selectionné
             $content = new RedirectResponse('infocat?chat='.$data['cat_name']->getFrenchName());
           }else{
+            //accé au repository chat
             /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
             $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('appliwebBundle:Cat')
             ;
-
+            //on recupere tous les chats non publié
             $listCat = $repository->findByIsPublish(1);
 
             //  $listCat = $repository->findAll();
-
+            //on renvoie les données necessaires a la vue
             $content = $this
             ->get('templating')
             ->render('appliwebBundle:Admin:catlist.html.twig', array(
@@ -148,119 +168,128 @@ class AdminController extends Controller
             return new Response($content);
 
           }
-
+          // fonction d'affichage des astuces et chats non publié
           public function nopublishAction(Request $req)
           {
 
-
+            //condition de suppression de chats
               if (null !== $req->query->get('catidrem'))
-              {  $rep = $this
+              {  //accé au repository cat
+                $rep = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('appliwebBundle:Cat')
                 ;
-
+                //accé au repository trick
                 $repos = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('appliwebBundle:Trick')
                 ;
-
+                //on recupere le manager
                 $em = $this->getDoctrine()->getManager();
 
+                //on recupere le chat a supprimer
                 $cat = $rep->findOneById($req->query->get('catidrem'));
+                //on recupere la liste d'astuce correspondant
                 $listtrick = $repos->findByIdCat($req->query->get('catidrem'));
-
+                //on supprime les astuces
                 foreach ($listtrick as $trick) {
                   // $advert est une instance de Advert
                 $em->remove($trick);
                 }
-
+                //on supprime les chats
                 $em->remove($cat);
-
+                //on flush tous dans la bdd
                 $em->flush();
 
               }
-
+              //ici on publie le chat correspondant a catid
               if (null !== $req->query->get('catid'))
-              {  $rep = $this
+              {
+                // accé au repository cat
+                $rep = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('appliwebBundle:Cat')
                 ;
+                //on recupere le manager
                 $em = $this->getDoctrine()->getManager();
-
+                //on recupere le chat
                 $cat = $rep->findOneById($req->query->get('catid'));
-
+                //on  set sont attribut publish a true
                 $cat->setIsPublish(1);
-
+                //on sauvegarde
                 $em->flush();
 
               }
+              //ici on publie une astuce
               if (null !== $req->query->get('trickid'))
-              {  $rep = $this
+              {  //accé au repository
+                $rep = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('appliwebBundle:Trick')
                 ;
+                //on recupere le manager
                 $em = $this->getDoctrine()->getManager();
-
+                //on recupere l'astuce
                 $trick = $rep->findOneById($req->query->get('trickid'));
-
+                //on set son attribut publish a true
                 $trick->setIsPublish(1);
-
+                // on sauvegarde
                 $em->flush();
 
               }
-
+              //ici on supprime une astuce
               if (null !== $req->query->get('trickidrem'))
-              {  $rep = $this
+              {  //accé au repository trick
+                $rep = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('appliwebBundle:Trick')
                 ;
+                //on recupere le manager
                 $em = $this->getDoctrine()->getManager();
-
+                // on recupere l'astuce
                 $trick = $rep->findOneById($req->query->get('trickidrem'));
-
+                //on supprime l'astuce
                 $em->remove($trick);
-
+                //on sauvegarde le tout
                 $em->flush();
 
               }
               /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
+              //accé au repository chat
               $repository = $this
               ->getDoctrine()
               ->getManager()
               ->getRepository('appliwebBundle:Cat')
               ;
-
+              //on recupere la liste de toute les chat nom publié
               $listCat = $repository->findByIsPublish(0);
-
+              //accé au repository chat
               $rep = $this
               ->getDoctrine()
               ->getManager()
               ->getRepository('appliwebBundle:Trick')
               ;
-
-              $repositorys = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('appliwebBundle:Cat')
-              ;
+              //accé au repository user
               $repositoryss = $this
               ->getDoctrine()
               ->getManager()
               ->getRepository('OCUserBundle:User')
               ;
-
+              //on reccupere toute les astuce non publié
               $listTrick = $rep->findByIsPublish(0);
-              $listCat2 = $repositorys->findAll();
+              //on recupere tous les chats
+              $listCat2 = $repository->findAll();
+              //on recupere tous les user
               $listUser = $repositoryss->findAll();
 
 
               //  $listCat = $repository->findAll();
-
+              //on renvoie les infos a la vue
               $content = $this
               ->get('templating')
               ->render('appliwebBundle:Admin:nopublish.html.twig', array(
@@ -275,51 +304,52 @@ class AdminController extends Controller
 
           }
 
-
-
-
-
-
-
           public function trickAction(Request $req)
           {
-
+            //ici on supprime une astuce
               if (null !== $req->query->get('trickid'))
-              {  $rep = $this
+              {  //accé au repository trick
+                $rep = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('appliwebBundle:Trick')
                 ;
+                //on reccupere le manager
                 $em = $this->getDoctrine()->getManager();
-
+                //on recupere l'astuce
                 $trick = $rep->findOneById($req->query->get('trickid'));
-
+                //on la supprime
                 $em->remove($trick);
-
+                //on supprime
                 $em->flush();
 
               }
               /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
+              //accé au repository trick
               $repository = $this
               ->getDoctrine()
               ->getManager()
               ->getRepository('appliwebBundle:Trick')
               ;
+              //accé au repository cat
               $repositorys = $this
               ->getDoctrine()
               ->getManager()
               ->getRepository('appliwebBundle:Cat')
               ;
+              //accé au repository user
               $repositoryss = $this
               ->getDoctrine()
               ->getManager()
               ->getRepository('OCUserBundle:User')
               ;
-
+              //on recupere les astuces publiées
               $listTrick = $repository->findByIsPublish(1);
+              //on recupere tous les chats
               $listCat = $repositorys->findAll();
+              //on recupere les users
               $listUser = $repositoryss->findAll();
-
+              //on renvoie tous a la vue
               $content = $this
               ->get('templating')
               ->render('appliwebBundle:Admin:trick.html.twig', array(
@@ -333,131 +363,5 @@ class AdminController extends Controller
 
           }
 
-          public function edittrickAction(Request $request)
-          {
-              // On récupère l'EntityManager
-              $em = $this->getDoctrine()->getManager();
 
-              $idtrick = $request->query->get('trick');
-              $desctrick = $request->query->get('desc');
-
-              $repositor = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('appliwebBundle:Trick')
-              ;
-
-              $trickactuel = $repositor->findOneById($idtrick);
-
-
-              $defaultData = array('message' => 'Type your message here');
-              $form = $this->createFormBuilder($defaultData)
-              ->add('description', 'textarea',array('constraints' => new Length(array('min' => 10,'max' => 5000)),'label' => 'Trick description : ','data' => $trickactuel->getTrickDescription()))
-              ->add('send', 'submit')
-              ->getForm();
-
-
-
-              $form->handleRequest($request);
-
-              if ($form->isValid()) {
-                // data is an array with "name", "email", and "message" keys
-                $data = $form->getData();
-
-
-                $trickactuel->setTrickDescription($data['description']);
-
-                $em->flush();
-
-                //return $this->redirect($this->generateUrl('index'));
-                $content = new RedirectResponse('redir');
-
-              }else{
-
-                //fonctionne !
-
-                $content = $this
-                ->get('templating')
-                ->render('appliwebBundle:Admin:edittrick.html.twig', array(
-                  'form' => $form->createView(),
-                  'id' => $idtrick,
-                  'desc' => $desctrick,
-                  'page' => 'trick'
-                ));}
-                return new Response($content);
-              }
-
-              public function editcatAction(Request $request)
-              {
-
-                  $id = $request->query->get('catid');
-                  $repository = $this
-                  ->getDoctrine()
-                  ->getManager()
-                  ->getRepository('appliwebBundle:Cat')
-                  ;
-
-                  $catactuel = $repository->findOneById($id);
-
-                  $defaultData = array('message' => 'Type your message here');
-                  $form = $this->createFormBuilder($defaultData)
-                  ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3,'max' => 20)),'label' => 'Name : ','data' => $catactuel->getFrenchName() ))
-                  ->add('japanese_name', 'text',array('constraints' => new Length(array('min' => 3,'max' => 45)),'label' => 'Japanese name : ','data' => $catactuel->getJapaneseName()))
-                  ->add('description', 'textarea',array('constraints' => new Length(array('min' => 3,'max' => 30)),'label' => 'Description : ','data' => $catactuel->getDescription()))
-                  ->add('personality', 'text',array('constraints' => new Length(array('min' => 3,'max' => 20)),'label' => 'Personality : ','data' => $catactuel->getPersonality()))
-                  ->add('level', 'integer',array('constraints' => new Range(array('min' => 1,'max' => 999)),'label' => 'Level : ','data' => $catactuel->getLevel()))
-                  ->add('israre', 'checkbox',array('required' => false,'label' => 'Rare cat ? : ', 'data' => $catactuel->getIsRare()))
-                  ->add('image', 'file',array('constraints' => new File(array('mimeTypes' => 'image/png')),'required' => false,'label' => 'Cat image (not mandatory) : '))
-                  ->add('memento', 'file',array('constraints' => new File(array('mimeTypes' => 'image/png')),'required' => false,'label' => 'Memento image (not mandatory) : '))
-                  ->add('send', 'submit')
-                  ->getForm();
-
-                  $form->handleRequest($request);
-
-                  if ($form->isValid()) {
-                    // data is an array with "name", "email", and "message" keys
-                    $data = $form->getData();
-
-                    $em = $this->getDoctrine()->getManager();
-
-
-                    if (null === $catactuel) {
-                      throw new NotFoundHttpException("Le chat : ".$data['french_name']." n'existe pas.");
-                    }
-
-                    $catactuel->setFrenchName($data['french_name']);
-                    $catactuel->setJapaneseName($data['japanese_name']);
-                    $catactuel->setDescription($data['description']);
-                    $catactuel->setPersonality($data['personality']);
-                    $catactuel->setLevel($data['level']);
-                    $catactuel->setIsRare($data['israre']);
-
-                    if($data['image'] != null){
-
-                    $image1=new Image();
-                    $image1->setFile($data['image']);
-                    $image1->upload("Assets/Image",$data['french_name'].".png");
-                  }
-
-                    if($data['memento'] != null){
-
-                    $image2=new Image();
-                    $image2->setFile($data['memento']);
-                    $image2->upload("Assets/Image/Memento",$data['french_name'].".png");
-                    }
-
-                    $em->flush();
-                    $content = new RedirectResponse('redir');
-                  }else {
-
-
-                    $content = $this
-                    ->get('templating')
-                    ->render('appliwebBundle:Admin:editcat.html.twig', array(
-                      'page' => 'cat-list',
-                      'form' => $form->createView()
-                    ));}
-                    return new Response($content);
-
-                  }
                 }?>

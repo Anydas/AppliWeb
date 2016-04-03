@@ -1,79 +1,121 @@
+<!--- feuille de stylle -->
+<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
+<link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+<!--- zoom image -->
+{{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+<!-- script -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- menu -->
 <div class="container">
+  <!-- difinition position collé au top -->
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
+        <!-- logo -->
         <a class="navbar-brand" href="{{ path("Homepage") }}"><img src="{{ asset('bundles/appliweb/Image/Logo.png') }}" alt="title" style="width:120px;height:45px;" /></a>
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#CatNavBar" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
       </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <!-- page -->
+      <div class="collapse navbar-collapse" id="CatNavBar">
         <ul class="nav navbar-nav">
+
           {% if page == "index" %}
+          <!-- si page active est index -->
           <li class="active"> <a href="{{ path('Homepage') }}">Home</a> </li>
           {% else %}
+          <!-- si index n'est pas active -->
           <li> <a href="{{ path('Homepage') }}">Home</a> </li>
           {% endif %}
           {% if is_granted("ROLE_ADMIN") %}
+          <!-- si l'user est admin -->
           {% if page == "cat-list" %}
+          <!-- si la page est catlist -->
           <li class="active"> <a href="{{ path('AdminCat_list') }}">Cat list</a> </li>
           {% else %}
+          <!-- si la page n'est pas catlist -->
           <li> <a href="{{ path('AdminCat_list') }}">Cat list</a> </li>
           {% endif %}
           {% else %}
+          <!-- si on est pas admin -->
           {% if page == "cat-list" %}
+          <!-- si la page est catlist -->
           <li class="active"> <a href="{{ path('Cat_list') }}">Cat list</a> </li>
           {% else %}
+          <!-- si la page active n'est pas catlist -->
           <li> <a href="{{ path('Cat_list') }}">Cat list</a> </li>
           {% endif %}
           {% endif %}
           {% if page == "food" %}
+          <!-- si la page active est food -->
           <li class="active"> <a href="{{ path('Food') }}">Food</a> </li>
           {% else %}
+          <!-- si la page active n'est pas food -->
           <li> <a href="{{ path('Food') }}">Food</a> </li>
           {% endif %}
           {% if page == "goodies" %}
+          <!-- si la page active est goodies -->
           <li class="active"> <a href="{{ path('Goodies') }}">Goodies</a> </li>
           {% else %}
+          <!-- si la page actuelle n'est pas goodies -->
           <li> <a href="{{ path('Goodies') }}">Goodies</a> </li>
           {% endif %}
           {% if is_granted("ROLE_ADMIN") %}
+          <!-- si on est admin -->
           {% if page == "trick" %}
+          <!-- si la page active est trick -->
           <li class="active"> <a href="{{ path('AdminTrick') }}">Trick</a> </li>
           {% else %}
+          <!-- si la page active n'est pas trick -->
           <li> <a href="{{ path('AdminTrick') }}">Trick</a> </li>
           {% endif %}
           {% else %}
+          <!-- si on est pas admin -->
           {% if page == "trick" %}
+          <!-- si la page active est trick -->
           <li class="active"> <a href="{{ path('Trick') }}">Trick</a> </li>
           {% else %}
+          <!-- si la page active n'est pas trick -->
           <li> <a href="{{ path('Trick') }}">Trick</a> </li>
           {% endif %}
           {% endif %}
           {% if is_granted("ROLE_USER") %}
+          <!-- si on est un user -->
           {% if page == "addtrick" %}
+          <!-- si addtrick est la page active -->
           <li class="active"> <a href="{{ path('Addtrick') }}">Add a trick</a> </li>
           {% else %}
+          <!-- si addtrick n'est pas la page active -->
           <li> <a href="{{ path('Addtrick') }}">Add a trick</a> </li>
           {% endif %}
           {% if page == "addcat" %}
+          <!-- si addcat est la page active -->
           <li class="active"> <a href="{{ path('Addcat') }}">Add a cat</a> </li>
           {% else %}
+          <!-- si addcat n'est pas la page active -->
           <li> <a href="{{ path('Addcat') }}">Add a cat</a> </li>
           {% endif %}
           {% endif %}
           {% if is_granted("ROLE_ADMIN") %}
+          <!-- si on est admin -->
           {% if page == "nopublish" %}
+          <!-- si la page active est nopublish -->
           <li class="active"> <a href="{{ path('Nopublish') }}">Publish</a> </li>
           {% else %}
+          <!-- si la page active n'est pas nopublish -->
           <li> <a href="{{ path('Nopublish') }}">Publish</a> </li>
           {% endif %}
           {% if page == "user" %}
+          <!-- sila page active est user -->
           <li class="active"> <a href="{{ path('User') }}">User</a> </li>
           {% else %}
+          <!-- si la page active n'est pas user -->
           <li> <a href="{{ path('User') }}">User</a> </li>
 
           {% endif %}
@@ -81,18 +123,24 @@
 
 
         </ul>
-        <ul class="nav navbar-nav pull-right">
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <ul class="nav navbar-nav navbar-right">
 
-          {% if page == "Profile" %}
-          <li class="active"> <a href="{{ path('fos_user_profile_show') }}">Profile</a> </li>
-          {% else %}
-          <li> <a href="{{ path('fos_user_profile_show') }}">Profile</a> </li>
-          {% endif %}
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+          <!-- si l'utilisateur est connecté -->
+          <!-- bonjour a l'user -->
           <li><a>Welcome {{ app.user.username }}</a></li>
-          <li><a class="glyphicon glyphicon-off" href="{{ path('fos_user_security_logout') }}" role="button"></a></li>
+          {% if page == "Profile" %}
+          <!-- si la page active est profile -->
+          <li class="active"> <a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"></span> Profile</a> </li>
           {% else %}
-          <li> <a href="{{ path('fos_user_security_login') }}">Login</a> </li>
+          <!-- si la page active n'est pas profile -->
+          <li> <a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-user"></span> Profile</a> </li>
+          {% endif %}
+          <!-- bouton de deconexion -->
+          <li> <a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-off"></span> Logout</a> </li>
+          {% else %}
+          <!-- bouton de login -->
+          <li> <a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a> </li>
           {% endif %}
         </ul>
       </div>

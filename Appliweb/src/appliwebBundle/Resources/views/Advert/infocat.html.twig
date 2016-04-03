@@ -2,75 +2,100 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.min.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-        <title>Cat info</title>
-        {{ include("appliwebBundle:Advert:layout.html.twig") }}
-        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
-    </head>
+<head>
+  <!-- titre de la page -->
+  <title>Cat info</title>
+  <!-- menu -->
+  {{ include("appliwebBundle:Advert:layout.html.twig") }}
+
+</head>
 <body>
-<div class="container">
-        <center><h1>About {{ nom.frenchname }}</h1></center>
-        <p>
+  <!-- container -->
+  <div class="container">
+    <!-- titre -->
+    <center><h1>About {{ nom.frenchname }}</h1></center>
+    <p>
 
-       <div id="centre">
+      <div id="centre">
+        <!-- section1 -->
         <div id="sect">
-        <a class="fancybox" href="Assets/Image/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>
+          <!-- image du chat -->
+          <a class="fancybox" href="Assets/Image/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>
         </div>
+        <!-- section2 -->
         <div id="sect">
-        &nbsp&nbsp<B>Name :</B> {{ nom.frenchname }}
-        <br>
-        &nbsp&nbsp<B>Japanese name :</B> {{ nom.japanesename }}
-        <br>
-        &nbsp&nbsp<B>Description :</B> {{ nom.description }}
-          </div>
-
+          <!-- nom du chat -->
+          &nbsp&nbsp<B>Name :</B> {{ nom.frenchname }}
+          <br>
+          <!-- nom du chat -->
+          &nbsp&nbsp<B>Japanese name :</B> {{ nom.japanesename }}
+          <br>
+          <!-- description du chat -->
+          &nbsp&nbsp<B>Description :</B> {{ nom.description }}
+        </div>
+        <!-- section3 -->
         <div id="sect">
-        &nbsp&nbsp<B>Personality :</B> {{ nom.personality }}
-        <br>
-        &nbsp&nbsp<B>Level :</B> {{ nom.level }}
+          <!-- personalité du chat -->
+          &nbsp&nbsp<B>Personality :</B> {{ nom.personality }}
+          <br>
+          <!-- niveau du chat -->
+          &nbsp&nbsp<B>Level :</B> {{ nom.level }}
         </div>
+        <!-- section4 -->
         <div id="sect">
-        <a class="fancybox" href="Assets/Image/Memento/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/Memento/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>
+          <!-- image du chat  -->
+          <a class="fancybox" href="Assets/Image/Memento/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/Memento/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>
         </div>
         <br>
         <br>
-        </div>
-
-        <div id="tableau">
+      </div>
+      <!-- tableau -->
+      <div id="tableau">
         <table class="table table-bordered table-striped table-condensed">
+          <!-- entete -->
           <thead>
             <tr>
+              <!-- colone1 -->
               <th>Image</th>
+              <!-- colone2 -->
               <th>Cat name</th>
+              <!-- colone3 -->
               <th>Trick</th>
+              <!-- colone4 -->
               <th>Post by</th>
 
             </tr>
           </thead>
+          <!-- body du tableau -->
           <tbody>
+            <!-- parcour la liste des astuce est les affiche si elle sont publish -->
             {% for list in listTrick %}
             {% if list.ispublish == 1 %}
             <tr>
-
+              <!-- colone1 -->
               <td>&nbsp<a class="fancybox" href="Assets/Image/{{ nom.frenchname }}.png" data-fancybox-group="gallery" title="{{ nom.frenchname }}"><img src="Assets/Image/{{ nom.frenchname }}.png" alt="{{ nom.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+              <!-- colone2 -->
               <td>&nbsp{{ nom.frenchname }}&nbsp</td>
-
+              <!-- colone3 -->
               <td>&nbsp{{ list.trickdescription }}&nbsp</td>
+              <!-- affiche l'user qui a poste l'annonce -->
               {% for user in listUser %}
               {% if list.iduser == user.id %}
+              <!-- colone4 -->
               <td>&nbsp{{ user.username }}&nbsp</td>
               {% endif %}
               {% endfor %}
               {% endif %}
               {% endfor %}
+              <!-- fin du body du tab -->
             </tbody>
+            <!-- fin du tab -->
           </table>
-          </div>
-
-        </p>
         </div>
-        {{ include("appliwebBundle:Advert:footer.html.twig") }}
-    </body>
-</html>
+
+      </p>
+    </div>
+    <!-- footer -->
+    {{ include("appliwebBundle:Advert:footer.html.twig") }}
+  </body>
+  </html>

@@ -1,10 +1,9 @@
-  <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-
-
+<!-- carousel -->
 <div class="bs-example">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Carousel indicators -->
         <ol class="carousel-indicators">
+          <!-- indicator -->
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
             <li data-target="#myCarousel" data-slide-to="2"></li>
@@ -12,24 +11,30 @@
         <!-- Wrapper for carousel items -->
         <div class="carousel-inner">
             <div class="item active">
+              <!-- slide 1 -->
                 <img src="Assets/Image/slide1.png" alt="First Slide" style="width:1280px;height:500px;" class="img-responsive img-rounded">
             </div>
             <div class="item">
+              <!-- slide2 -->
                 <img src="Assets/Image/slide3.jpg" alt="Second Slide" style="width:1280px;height:500px;" class="img-responsive img-rounded">
             </div>
             <div class="item">
+              <!-- slide3 -->
                 <img src="Assets/Image/slide2.png" alt="Third Slide" style="width:1280px;height:500px;" class="img-responsive img-rounded">
             </div>
         </div>
         <!-- Carousel controls -->
+        <!-- cote gauche -->
         <a class="carousel-control left" href="#myCarousel" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
+        <!-- cote droit -->
         <a class="carousel-control right" href="#myCarousel" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
 </div>
 
+<!-- scrip -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="Assets/js/bootstrap.min.js"></script>

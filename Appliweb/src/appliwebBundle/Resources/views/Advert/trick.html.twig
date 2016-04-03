@@ -3,70 +3,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
-  <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+  <!--- titre -->
   <title>Trick</title>
+  <!--- menu -->
   {{ include("appliwebBundle:Advert:layout.html.twig") }}
-  {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+
 </head>
 <body>
+  <!--- conteneur -->
   <div class="container">
 
     <p>
-
+      <!--- Tableau -->
       <table class="table table-bordered table-striped table-condensed">
+        <!--- en tete -->
         <thead>
           <tr>
+            <!--- colone 1 -->
             <th>Image</th>
+            <!---colone 2 -->
             <th>Cat name</th>
+            <!--- colone 3-->
             <th>Trick</th>
+            <!--- colone 4 -->
             <th>Post by</th>
-              {% if is_granted("ROLE_USER") %}
+            <!-- colone 5 -->
+            {% if is_granted("ROLE_USER") %}
             <th>Vote</th>
-              {% endif %}
+            {% endif %}
           </tr>
         </thead>
+        <!-- body du tableau -->
         <tbody>
-        {% set test1 = 0 %}
-
+          <!-- on set notre variable de test a 0 -->
+          {% set test1 = 0 %}
+          <!-- on parcourt notre liste d'astuce pour les afficher -->
           {% for list in listTrick %}
           <tr>
+            <!-- on parcourt notre liste de chat  -->
             {% for cat in listCat %}
+            <!-- si l'idcat de l'astuce est egale a celle du chat, on affiche le chat et son image -->
             {% if list.idcat == cat.id %}
+            <!-- colone1 -->
             <td>&nbsp<a class="fancybox" href="Assets/Image/{{ cat.frenchname }}.png" data-fancybox-group="gallery" title="{{ cat.frenchname }}"><img src="Assets/Image/{{ cat.frenchname }}.png" alt="{{ cat.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+            <!-- colone2 -->
             <td>&nbsp{{ cat.frenchname }}&nbsp</td>
             {% endif %}
             {% endfor %}
+            <!-- colone3 -->
             <td>&nbsp{{ list.trickdescription }}&nbsp</td>
+            <!-- idem chat mais pour les user -->
             {% for user in listUser %}
             {% if list.iduser == user.id %}
+            <!-- colone4 -->
             <td>&nbsp{{ user.username }}&nbsp</td>
             {% endif %}
             {% endfor %}
-
+            <!-- si l'user est connecté on affiche cet partie -->
             {% if is_granted("ROLE_USER") %}
-
-              {% for vote in listVote %}
-
-              {% if vote.idtrick == list.id   %}
-              {% set test1 = 1 %}
+            <!-- on parcourt la liste des astuces voté par l'user -->
+            {% for vote in listVote %}
+            <!-- si l'user a vote pour cet astuce on set test a 1 -->
+            {% if vote.idtrick == list.id   %}
+            {% set test1 = 1 %}
+            {% endif %}
+            {% endfor %}
+            <!-- si l'user a deja voté pour l'astuce on affiche le score -->
+            {%  if(test1 == 1)%}
+            <!-- colone5 -->
+            <td>Score : {{ list.nblike - list.nbdislike }}</td>
+            {% else %}
+            <!-- sinon on affiche les boutons pour voter -->
+            <!-- colone5 -->
+            <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
+              &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a></td>
               {% endif %}
-                  {% endfor %}
-                  {%  if(test1 == 1)%}
-                    <td>Score : {{ list.nblike - list.nbdislike }}</td>
-                  {% else %}
-                  <td><a class="glyphicon glyphicon-thumbs-up" href="trick?votegid={{ list.id }}&desc={{ list.trickdescription }}" role="button"></a>
-                    &nbsp&nbsp  <a class="glyphicon glyphicon-thumbs-down" href="trick?votebid={{ list.id }}" role="button"></a></td>
-                  {% endif %}
-                    {% set test1 = 0 %}
-                {% endif %}
+              {% set test1 = 0 %}
+              {% endif %}
             </tr>
             {% endfor %}
+            <!-- fin du body du tableau -->
           </tbody>
+          <!-- fin du tableau -->
         </table>
 
       </p>
     </div>
+    <!-- footer -->
     {{ include("appliwebBundle:Advert:footer.html.twig") }}
   </body>
   </html>

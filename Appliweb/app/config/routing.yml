@@ -1,8 +1,12 @@
+soap:
+    resource: "@SoapBundle/Resources/config/routing.yml"
+    prefix:   /
+
 oc_user:
     resource: "@OCUserBundle/Resources/config/routing.yml"
     prefix:   /
 
-# src/OC/PlatformBundle/Resources/config/routing.yml
+
 
 appliweb:
     resource: "@appliwebBundle/Resources/config/routing.yml"

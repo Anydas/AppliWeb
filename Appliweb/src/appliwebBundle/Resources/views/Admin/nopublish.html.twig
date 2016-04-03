@@ -2,96 +2,146 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-        <title>Cat list</title>
-        {{ include("appliwebBundle:Advert:layout.html.twig") }}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
+<head>
+  <!-- titre -->
+  <title>Cat list</title>
+  <!-- menu -->
+  {{ include("appliwebBundle:Advert:layout.html.twig") }}
 
-    </head>
-    <body>
-    <div class="container">
-	
-        <p>
-          <div class="tabbed_area">
-            <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#content_1">Cat</a></li>
-    <li><a data-toggle="tab" href="#content_2">Trick</a></li>
-  </ul>
-  <div class="tab-content">
-  <div id="content_1" class="tab-pane fade in active">
+</head>
+<body>
+  <!-- container -->
+  <div class="container">
 
-        <table class="table table-bordered table-striped table-condensed">
-           <thead>
-               <tr>
-                   <th>Image</th>
-                   <th>Nom</th>
-                  <th>Nom </th>
-                   <th>Description</th>
-                   <th>Personality</th>
-                   <th>Level</th>
-                   <th>Memento</th>
-                   <th>Edit</th>
-                   </tr>
-           </thead>
-           <tbody>
-           {% for list in listCat %}
-             <tr>
-             <td>&nbsp<a class="fancybox" href="Assets/Image/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-             <td>&nbsp<a class="btn btn-info" href="infocat?chat={{ list.frenchname }}" role="button">{{ list.frenchname }} </a>&nbsp</td>
-             <td>&nbsp{{ list.japanesename }}&nbsp</td>
-             <td>&nbsp{{ list.description }}&nbsp</td>
-             <td>&nbsp{{ list.personality }}&nbsp</td>
-             <td>&nbsp{{ list.level }}&nbsp</td>
-             <td>&nbsp<a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-             <td><a class="btn btn-success" href="nopublish?catid={{ list.id }}" role="button">Publish</a>
-             <a class="btn btn-danger" href="nopublish?catidrem={{ list.id }}" role="button">Delete</a></td>
-             </tr>
-           {% endfor %}
-           </tbody>
-         </table>
-</div>
- <div id="content_2" class="tab-pane fade">
+    <p>
+      <!-- onglet -->
+      <div class="tabbed_area">
+        <ul class="nav nav-tabs">
+          <!-- lien -->
+          <li class="active"><a data-toggle="tab" href="#content_1">Cat</a></li>
+          <li><a data-toggle="tab" href="#content_2">Trick</a></li>
+        </ul>
+        <!-- onglet1 -->
+        <div class="tab-content">
+          <div id="content_1" class="tab-pane fade in active">
+            <!-- tableau -->
             <table class="table table-bordered table-striped table-condensed">
-            <thead>
+              <!-- en tete -->
+              <thead>
                 <tr>
+                  <!-- colone1 -->
+                  <th>Image</th>
+                  <!-- colone2 -->
+                  <th>Nom</th>
+                  <!-- colone3 -->
+                  <th>Nom </th>
+                  <!-- colone4 -->
+                  <th>Description</th>
+                  <!-- colone5 -->
+                  <th>Personality</th>
+                  <!-- colone6 -->
+                  <th>Level</th>
+                  <!-- colone7 -->
+                  <th>Memento</th>
+                  <!-- colone8 -->
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <!-- debut du body -->
+              <tbody>
+                <!-- affichage de tous les chats non publié -->
+                {% for list in listCat %}
+                <tr>
+                  <!-- colone1 -->
+                  <td>&nbsp<a class="fancybox" href="Assets/Image/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+                  <!-- colone2 -->
+                  <td>&nbsp<a class="btn btn-info" href="infocat?chat={{ list.frenchname }}" role="button">{{ list.frenchname }} </a>&nbsp</td>
+                  <!-- colone3 -->
+                  <td>&nbsp{{ list.japanesename }}&nbsp</td>
+                  <!-- colone4 -->
+                  <td>&nbsp{{ list.description }}&nbsp</td>
+                  <!-- colone5 -->
+                  <td>&nbsp{{ list.personality }}&nbsp</td>
+                  <!-- colone6 -->
+                  <td>&nbsp{{ list.level }}&nbsp</td>
+                  <!-- colone7 -->
+                  <td>&nbsp<a class="fancybox" href="Assets/Image/Memento/{{ list.frenchname }}.png" data-fancybox-group="gallery" title="{{ list.frenchname }}"><img src="Assets/Image/Memento/{{ list.frenchname }}.png" alt="{{ list.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+                  <!-- colone8 -->
+                  <td>
+                    <!-- edit -->
+                    <a class="btn btn-success" href="nopublish?catid={{ list.id }}" role="button">Publish</a>
+                    <!-- delete -->
+                    <a class="btn btn-danger" href="nopublish?catidrem={{ list.id }}" role="button">Delete</a></td>
+                  </tr>
+                  {% endfor %}
+                  <!-- fin du body -->
+                </tbody>
+                <!-- fin du tableau -->
+              </table>
+              <!-- fin de l'onglet 1 -->
+            </div>
+            <!-- onglet2 -->
+            <div id="content_2" class="tab-pane fade">
+              <!-- tableau -->
+              <table class="table table-bordered table-striped table-condensed">
+                <!-- entete -->
+                <thead>
+                  <tr>
+                    <!-- colone1 -->
                     <th>Image</th>
+                    <!-- colone2 -->
                     <th>Cat name</th>
+                    <!-- colone3 -->
                     <th>Trick</th>
+                    <!-- colone4 -->
                     <th>Post by</th>
+                    <!-- colone5 -->
                     <th>Edit</th>
+                  </tr>
+                </thead>
+                <!-- debut du body -->
+                <tbody>
+                  <!-- parcourt la liste des astuce et les affiche -->
+                  {% for list in listTrick %}
+                  <tr>
+                    <!-- affiche le chat correspondant a l'astuce -->
+                    {% for cat in listCat2 %}
+                    {% if list.idcat == cat.id %}
+                    <!-- colone1 -->
+                    <td>&nbsp<a class="fancybox" href="Assets/Image/{{ cat.frenchname }}.png" data-fancybox-group="gallery" title="{{ cat.frenchname }}"><img src="Assets/Image/{{ cat.frenchname }}.png" alt="{{ cat.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+                    <!-- colone2 -->
+                    <td>&nbsp{{ cat.frenchname }}&nbsp</td>
+                    {% endif %}
+                    {% endfor %}
+                    <!-- colone3 -->
+                    <td>&nbsp{{ list.trickdescription }}&nbsp</td>
+                    <!-- affiche l'editeur de l'astuce -->
+                    {% for user in listUser %}
+                    {% if list.iduser == user.id %}
+                    <!-- colone4 -->
+                    <td>&nbsp{{ user.username }}&nbsp</td>
+                    {% endif %}
+                    {% endfor %}
+                    <!-- colone5 -->
+                    <td>
+                      <!-- edit -->
+                      <a class="btn btn-success" href="nopublish?trickid={{ list.id }}" role="button">Publish</a>
+                      <!-- delete -->
+                      <a class="btn btn-danger" href="nopublish?trickidrem={{ list.id }}" role="button">Delete</a></td>
                     </tr>
-            </thead>
-            <tbody>
-            {% for list in listTrick %}
-              <tr>
-                {% for cat in listCat2 %}
-                {% if list.idcat == cat.id %}
-              <td>&nbsp<a class="fancybox" href="Assets/Image/{{ cat.frenchname }}.png" data-fancybox-group="gallery" title="{{ cat.frenchname }}"><img src="Assets/Image/{{ cat.frenchname }}.png" alt="{{ cat.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-              <td>&nbsp{{ cat.frenchname }}&nbsp</td>
-              {% endif %}
-              {% endfor %}
-              <td>&nbsp{{ list.trickdescription }}&nbsp</td>
-              {% for user in listUser %}
-             {% if list.iduser == user.id %}
-             <td>&nbsp{{ user.username }}&nbsp</td>
-             {% endif %}
-             {% endfor %}
-              <td><a class="btn btn-success" href="nopublish?trickid={{ list.id }}" role="button">Publish</a>
-              <a class="btn btn-danger" href="nopublish?trickidrem={{ list.id }}" role="button">Delete</a></td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
+                    {% endfor %}
+                    <!-- fin du body -->
+                  </tbody>
+                  <!-- fin de la talbe -->
+                </table>
+                <!-- fin des onglets -->
+              </div>
+            </div>
+          </p>
         </div>
       </div>
-        </p>
-        </div>
-      </div>
-          {{ include("appliwebBundle:Advert:footer.html.twig") }}
+      <!-- footer -->
+      {{ include("appliwebBundle:Advert:footer.html.twig") }}
     </body>
 
-</html>
+    </html>

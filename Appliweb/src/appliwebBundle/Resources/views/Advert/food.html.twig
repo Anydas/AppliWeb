@@ -2,43 +2,58 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-        <title>Food</title>
-        {{ include("appliwebBundle:Advert:layout.html.twig") }}
-        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
-    </head>
-    <body>
-    <div class="container">
-	    <p>
-        <table class="table table-bordered table-striped table-condensed">
-           <thead>
-               <tr>
-                   <th>Image</th>
-                   <th>Nom</th>
-                  <th>Description</th>
-                   <th>Quantity</th>
-                   <th>Price</th>
-                   </tr>
-           </thead>
-           <tbody>
-           {% for list in listFood %}
-             <tr>
-             <td>&nbsp<a class="fancybox" href="Assets/Image/{{ list.name }}.png" data-fancybox-group="gallery" title="{{ list.name }}"><img src="Assets/Image/{{ list.name }}.png" alt="{{ list.name }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-             <td>&nbsp{{ list.name }}</td>
-             <td>&nbsp{{ list.description }}&nbsp</td>
-             <td>&nbsp{{ list.quantity }}&nbsp</td>
-             <td>&nbsp<img src="Assets/Image/{{ list.price }}G.png" alt="{{ list.price }}" style="width:20px;height:12px;">&nbsp</td>
-             </tr>
-           {% endfor %}
-           </tbody>
-         </table>
+<head>
+  <!-- titre de la page -->
+  <title>Food</title>
+  <!-- menu -->
+  {{ include("appliwebBundle:Advert:layout.html.twig") }}
 
-        
-
-        </p>
-        </div>
-        {{ include("appliwebBundle:Advert:footer.html.twig") }}
-    </body>
+</head>
+<body>
+  <!-- container -->
+  <div class="container">
+    <p>
+      <!-- tableau -->
+      <table class="table table-bordered table-striped table-condensed">
+        <!-- en tete -->
+        <thead>
+          <tr>
+            <!-- colone1 -->
+            <th>Image</th>
+            <!-- colone2 -->
+            <th>Nom</th>
+            <!-- colone3 -->
+            <th>Description</th>
+            <!-- colone4 -->
+            <th>Quantity</th>
+            <!-- colone5 -->
+            <th>Price</th>
+          </tr>
+        </thead>
+        <!-- debut du body du tableau -->
+        <tbody>
+          <!-- parcourt de la liste pour afficher les foods -->
+          {% for list in listFood %}
+          <tr>
+            <!-- colone1 -->
+            <td>&nbsp<a class="fancybox" href="Assets/Image/{{ list.name }}.png" data-fancybox-group="gallery" title="{{ list.name }}"><img src="Assets/Image/{{ list.name }}.png" alt="{{ list.name }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+            <!-- colone2 -->
+            <td>&nbsp{{ list.name }}</td>
+            <!-- colone3 -->
+            <td>&nbsp{{ list.description }}&nbsp</td>
+            <!-- colone4 -->
+            <td>&nbsp{{ list.quantity }}&nbsp</td>
+            <!-- colone5 -->
+            <td>&nbsp<img src="Assets/Image/{{ list.price }}G.png" alt="{{ list.price }}" style="width:20px;height:12px;">&nbsp</td>
+          </tr>
+          {% endfor %}
+          <!-- fin du body du tableau -->
+        </tbody>
+        <!-- fin du tableau -->
+      </table>
+    </p>
+  </div>
+  <!-- footer -->
+  {{ include("appliwebBundle:Advert:footer.html.twig") }}
+</body>
 </html>

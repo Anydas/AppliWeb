@@ -3,17 +3,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.min.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
+	     <!-- titre de la page -->
         <title>Home</title>
+        <!-- menu -->
         {{ include("appliwebBundle:Advert:layout.html.twig") }}
     </head>
 <body>
+  <!-- container -->
 <div class="container">
-	  
 
 
+    <!-- carousel -->
        {{ include("appliwebBundle:Advert:carousel.html.twig") }}
+       <!-- paragraphe 1 -->
         <p>Neko Atsume (Kitty Collector in English) is a recent trending iOS and
            Android mobile phone game designed by the Japanese developer Hit-Point,
            in 2014. An English language option was released in an update on 30th
@@ -27,6 +29,7 @@
            items to entice those elusive felines!
         </p>
 </div>
+<!-- footer -->
 {{ include("appliwebBundle:Advert:footer.html.twig") }}
     </body>
 </html>

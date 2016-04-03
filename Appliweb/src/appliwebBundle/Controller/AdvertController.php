@@ -27,9 +27,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class AdvertController extends Controller
-{
+{//index
   public function indexAction(Request $request)
-  {
+  { //aucun traitement on va direct a la vue
     $content = $this
     ->get('templating')
     ->render('appliwebBundle:Advert:index.html.twig', array(
@@ -40,12 +40,10 @@ class AdvertController extends Controller
   }
 
 
-
+//page d'affichage des chats (non admin)
   public function catlistAction(Request $req)
-  {
-
-
-
+  { //création d'un formulaire avec une liste de chats
+    //va permettre de renvoyé vers le bon chats lorsque l'user le voudra
     $defaultData = array('message' => 'Type your message here');
     $form = $this->createFormBuilder($defaultData)
     ->add('cat_name', 'entity', array(
@@ -56,23 +54,25 @@ class AdvertController extends Controller
       ->getForm();
 
       $form->handleRequest($req);
-
+      //lorsque le formulaire est valide
       if ($form->isValid()) {
-        // data is an array with "name", "email", and "message" keys
+        // on recupere les donnée du formulaire
         $data = $form->getData();
+        //on redirige vers la page du chat
         $content = new RedirectResponse('infocat?chat='.$data['cat_name']->getFrenchName());
       }else{
         /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
+        //accé au repository  cat
         $repository = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('appliwebBundle:Cat')
         ;
-
+        //on recupere la liste de tous les chats publié
         $listCat = $repository->findByIsPublish(1);
 
         //  $listCat = $repository->findAll();
-
+        //on renvoie tout vers la vue
         $content = $this
         ->get('templating')
         ->render('appliwebBundle:Advert:catlist.html.twig', array(
@@ -87,34 +87,40 @@ class AdvertController extends Controller
 
 
 
-
+  //affiche un chat
       public function infocatAction(Request $req)
       {
 
-
+        //on recupere l'id du chat a afficher
         $tag = $req->query->get('chat');
 
         /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
+        //accé au repository cat
         $repository = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('appliwebBundle:Cat')
         ;
+        //accé au repository trick
         $rep = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('appliwebBundle:Trick')
         ;
+        //accé au repository user
         $repp = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('OCUserBundle:User')
         ;
+        //on recupere tous les users
         $user=  $repp->findAll();
+        //on recupere le chat a afficher
         $cat = $repository->findOneByFrench_name($tag);
+        //on recupere toute les astuces sur ce chat
         $trick = $rep->findByIdCat($cat->getId());
 
-
+        //on renvoie tout a la vue
         $content = $this
         ->get('templating')
         ->render('appliwebBundle:Advert:infocat.html.twig', array(
@@ -128,22 +134,23 @@ class AdvertController extends Controller
 
     }
 
-
+//affiche les foods
     public function foodAction()
     {
 
 
 
       /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
+      //accé au repository food
       $repository = $this
       ->getDoctrine()
       ->getManager()
       ->getRepository('appliwebBundle:Food')
       ;
-
+      //on recupere tout les food
       $listFood = $repository->findAll();
       //$food = $repository->findByName('Sashimi');
-
+      //on renvoie le resultat a la vue
       $content = $this
       ->get('templating')
       ->render('appliwebBundle:Advert:food.html.twig', array(
@@ -154,19 +161,21 @@ class AdvertController extends Controller
     return new Response($content);
 
   }
-
+//affiche les goodies
   public function goodiesAction()
   {
 
 
     /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
+    //acce au repository goodies
     $repository = $this
     ->getDoctrine()
     ->getManager()
     ->getRepository('appliwebBundle:Goodies')
     ;
-
+    //on recupere tous les goodies
     $listGoodies = $repository->findAll();
+    //on renvoie tout a la vue
     $content = $this
     ->get('templating')
     ->render('appliwebBundle:Advert:goodies.html.twig', array(
@@ -177,253 +186,104 @@ class AdvertController extends Controller
   return new Response($content);
 
 }
-
-public function addtrickAction(Request $request)
-{
-
-
-  $defaultData = array('message' => 'Type your message here');
-  $form = $this->createFormBuilder($defaultData)
-  ->add('cat_name', 'entity', array(
-    'class'    => 'appliwebBundle:Cat',
-    'property' => 'French_name',
-    'multiple' => false,'label' => 'Cat name : '))
-    ->add('description', 'textarea',array('constraints' => new Length(array('min' => 10,'max' => 5000)),'label' => 'Trick description : '))
-    ->add('send', 'submit')
-    ->getForm();
-
-    $form->handleRequest($request);
-
-
-
-    if ($form->isValid()) {
-      // data is an array with "name", "email", and "message" keys
-      $data = $form->getData();
-
-      $repository = $this
-      ->getDoctrine()
-      ->getManager()
-      ->getRepository('appliwebBundle:Cat')
-      ;
-
-      $rep = $this
-      ->getDoctrine()
-      ->getManager()
-      ->getRepository('OCUserBundle:User')
-      ;
-
-      $cat = $repository->findOneByFrench_name($data['cat_name']->getFrenchName());
-      if (null === $cat) {
-        throw new NotFoundHttpException("Le chat : ".$data['cat_name']->getFrenchName()." n'existe pas.");
-      }
-
-
-      // On récupère le service
-
-      $user= $this->container->get('security.context')->getToken()->getUser();
-
-
-      if (null === $user) {
-        // Ici, l'utilisateur est anonyme ou l'URL n'est pas derrière un pare-feu
-      } else {
-        $userinbdd = $rep->findOneByUsername($user->getUsername());
-        // Ici, $user est une instance de notre classe User
-      }
-
-
-      $trick=new Trick();
-      $trick->setIdCat($cat->getId());
-      $trick->setIdUser($userinbdd->getId());
-      $trick->setTrickDescription($data['description']);
-      $trick->setNbLike(0);
-      $trick->setNbDislike(0);
-      $trick->setIsPublish(0);
-
-      // On récupère l'EntityManager
-      $em = $this->getDoctrine()->getManager();
-
-      // Étape 1 : On « persiste » l'entité
-      $em->persist($trick);
-
-      // Étape 2 : On « flush » tout ce qui a été persisté avant
-      $em->flush();
-
-      //return $this->redirect($this->generateUrl('index'));
-      $content = new RedirectResponse('redir');
-
-    }else{
-
-      //fonctionne !
-
-
-      $content = $this
-      ->get('templating')
-      ->render('appliwebBundle:Advert:addtrick.html.twig', array(
-        'form' => $form->createView(),
-        'page' => 'addtrick'
-
-      ));}
-      return new Response($content);
-
-    }
-
-    public function addcatAction(Request $request)
-    {
-
-
-      $defaultData = array('message' => 'Type your message here');
-      $form = $this->createFormBuilder($defaultData)
-      ->add('french_name', 'text', array('constraints' => new Length(array('min' => 3,'max' => 20)),'label' => 'Name : '))
-      ->add('japanese_name', 'text',array('constraints' => new Length(array('min' => 3,'max' => 45)),'label' => 'Japanese name : '))
-      ->add('description', 'textarea',array('constraints' => new Length(array('min' => 3,'max' => 30)),'label' => 'Description : '))
-      ->add('personality', 'text',array('constraints' => new Length(array('min' => 3,'max' => 20)),'label' => 'Personality : '))
-      ->add('level', 'integer',array('constraints' => new Range(array('min' => 1,'max' => 999)),'label' => 'Level : '))
-      ->add('israre', 'checkbox',array('required' => false,'label' => 'Rare cat ? : '))
-      ->add('image', 'file',array('constraints' => new File(array('mimeTypes' => 'image/png')),'label' => 'Cat image : '))
-      ->add('memento', 'file',array('constraints' => new File(array('mimeTypes' => 'image/png')),'label' => 'Memento image : '))
-      ->add('send', 'submit')
-      ->getForm();
-
-      $form->handleRequest($request);
-
-
-
-      if ($form->isValid()) {
-        // data is an array with "name", "email", and "message" keys
-        $data = $form->getData();
-
-        $repository = $this
-        ->getDoctrine()
-        ->getManager()
-        ->getRepository('appliwebBundle:Cat')
-        ;
-
-        $cattest = $repository->findOneByFrench_name($data['french_name']);
-        if ($cattest != null) {
-          throw new UnsupportedMediaTypeHttpException("Le nom est déjà utilisé : ".$data['french_name']->getClientOriginalName());
-        }
-        $cattest = $repository->findOneByJapanese_name($data['japanese_name']);
-        if ($cattest != null) {
-          throw new UnsupportedMediaTypeHttpException("Le nom est déjà utilisé : ".$data['japanese_name']->getClientOriginalName());
-        }
-        $cat=new Cat();
-        $cat->setFrenchName($data['french_name']);
-        $cat->setJapaneseName($data['japanese_name']);
-        $cat->setDescription($data['description']);
-        $cat->setPersonality($data['personality']);
-        $cat->setLevel($data['level']);
-        $cat->setIsRare($data['israre']);
-        $cat->setIsPublish(0);
-
-
-      
-
-        $image1=new Image();
-        $image1->setFile($data['image']);
-        $image1->upload("Assets/Image",$data['french_name'].".png");
-
-        $image2=new Image();
-        $image2->setFile($data['memento']);
-        $image2->upload("Assets/Image/Memento",$data['french_name'].".png");
-
-
-        // On récupère l'EntityManager
-        $em = $this->getDoctrine()->getManager();
-
-        // Étape 1 : On « persiste » l'entité
-        $em->persist($cat);
-
-        // Étape 2 : On « flush » tout ce qui a été persisté avant
-        $em->flush();
-
-        //return $this->redirect($this->generateUrl('index'));
-        $content = new RedirectResponse('redir');
-      }else{
-
-        //fonctionne !
-
-
-        $content = $this
-        ->get('templating')
-        ->render('appliwebBundle:Advert:addcat.html.twig', array(
-          'form' => $form->createView(),
-          'page' => 'addcat'
-        ));}
-        return new Response($content);
-
-      }
-
-
+      //affiche les astuces
       public function trickAction(Request $req)
       {
 
-
+        //vote pour une astuce
         if (null !== $req->query->get('votegid'))
-        {  $rep = $this
+        {  //accé au repository trick
+          $rep = $this
           ->getDoctrine()
           ->getManager()
           ->getRepository('appliwebBundle:Trick')
           ;
+          //on recupere le manager
           $em = $this->getDoctrine()->getManager();
-
+          //on recupere l'astuce correspondant
           $trick = $rep->findOneById($req->query->get('votegid'));
+          //on recupere le nombre de j'aime actuel
           $nblike= $trick->getNbLike();
+          //on incremente de 1
+          $trick->setNbLike($nblike+1);
+          //on sauvegarde dans la table vote user que
+          // l'user courrant a voté pour cette astuce
           $vote=new Vote_user();
           $vote->setIdUser($this->container->get('security.context')->getToken()->getUser()->getId());
           $vote->setIdTrick($trick->getId());
-          $trick->setNbLike($nblike+1);
+          //on persiste les deux objets
           $em->persist($trick);
           $em->persist($vote);
+          //on sauvegarde dans la bdd
           $em->flush();
 
         }
+        //vote contre une astuce
         if (null !== $req->query->get('votebid'))
-        {  $rep = $this
+        {  //accé au repository
+          $rep = $this
           ->getDoctrine()
           ->getManager()
           ->getRepository('appliwebBundle:Trick')
           ;
+          //on recupere le manager
           $em = $this->getDoctrine()->getManager();
-
+          //on recupere l'astuce pour laquelle on veux voter
           $trick = $rep->findOneById($req->query->get('votebid'));
+          //on recupere le nombre de je n'aime pas
+          $nblike= $trick->getNbDislike();
+          //on incremente la valeur
+          $trick->setNbDislike($nblike+1);
+          //on sauvegarde dans la table vote user que
+          // l'user courrant a voté pour cette astuce
           $vote=new Vote_user();
           $vote->setIdUser($this->container->get('security.context')->getToken()->getUser()->getId());
           $vote->setIdTrick($trick->getId());
-          $nblike= $trick->getNbDislike();
-
-          $trick->setNbDislike($nblike+1);
+          //on persiste les deux objets
           $em->persist($vote);
           $em->persist($trick);
+          //on save tout dans la bdd
           $em->flush();
 
         }
         /*$content = $this->get('templating')->render('appliwebBundle:Advert:fin.html.twig');*/
+        // accé au repository trick
         $repository = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('appliwebBundle:Trick')
         ;
+        // accé au repository cat
         $repositorys = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('appliwebBundle:Cat')
         ;
+        // accé au repository user
         $repositoryss = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('OCUserBundle:User')
         ;
+        //acce au repository vote_user
         $repos = $this
         ->getDoctrine()
         ->getManager()
         ->getRepository('appliwebBundle:Vote_user')
         ;
+        //on recupere l'user courrant
         $user= $this->container->get('security.context')->getToken()->getUser();
+        //on recupere les astuce publié
         $listTrick = $repository->findByIsPublish(1);
+        //on recupere les chats
         $listCat = $repositorys->findAll();
+        //on recupere tous les user
         $listUser = $repositoryss->findAll();
+        //si l'user courant est connécté
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+          //on recupere toute les astuces pour lequels il a voté
         $listVote = $repos->findByIdUser($user->getId());
-
+        //on renvoie tous a la vue
         $content = $this
         ->get('templating')
         ->render('appliwebBundle:Advert:trick.html.twig', array(
@@ -434,7 +294,19 @@ public function addtrickAction(Request $request)
           'currentUser' => $user,
           'page' => 'trick'
         )
+      );}else{
+        //on renvoie tous a la vue
+        $content = $this
+        ->get('templating')
+        ->render('appliwebBundle:Advert:trick.html.twig', array(
+          'listTrick' => $listTrick,
+          'listCat' => $listCat,
+          'listUser' => $listUser,
+          'currentUser' => $user,
+          'page' => 'trick'
+        )
       );
+      }
       return new Response($content);
 
     }

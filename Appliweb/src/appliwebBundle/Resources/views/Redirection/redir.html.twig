@@ -2,24 +2,25 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-       <meta http-equiv="refresh" content="5;{{path('Homepage')}}" />
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.min.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-        <title>Home</title>
-        {{ include("appliwebBundle:Advert:layout.html.twig") }}
+<head>
+  <!-- redirection -->
+  <meta http-equiv="refresh" content="5;{{path('Homepage')}}" />
+<!-- titre de la page -->
+  <title>Home</title>
+  <!-- menu -->
+  {{ include("appliwebBundle:Advert:layout.html.twig") }}
 
-    </head>
+</head>
 <body>
-<div class="container">
-<br>
-  <div class="alert alert-success">
-<strong>Success! :</strong> Saved change.
-</div>
-
-
-
-</div>
-{{ include("appliwebBundle:Advert:footer.html.twig") }}
-    </body>
+  <!-- container -->
+  <div class="container">
+    <br>
+    <!-- popup de succé -->
+    <div class="alert alert-success">
+      <strong>Success! :</strong> Saved change.
+    </div>
+  </div>
+  <!-- footer -->
+  {{ include("appliwebBundle:Advert:footer.html.twig") }}
+</body>
 </html>

@@ -1,0 +1,33 @@
+{# src/appiwebBundle/Resources/views/Advert/index.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <!--- titre -->
+  <title>Add a cat</title>
+  <!--- menu -->
+  {{ include("appliwebBundle:Advert:layout.html.twig") }}
+</head>
+<body>
+  <!-- container -->
+  <div class="container">
+    <p>
+      <!-- formulaire -->
+      <div class="well">
+      <!-- popup d'erreur -->
+      {% if error == 'oui' %}
+      <div class="alert alert-danger">
+        <strong>Error! :</strong> Cat name exist !
+      </div>
+       {% endif %}
+        <!-- theme bootstrap pour form -->
+        {% form_theme form 'bootstrap_3_layout.html.twig' %}
+        <!-- affichage form -->
+        {{ form(form) }}
+      </div>
+    </p>
+  </div>
+  <!-- footer -->
+  {{ include("appliwebBundle:Advert:footer.html.twig") }}
+</body>
+</html>

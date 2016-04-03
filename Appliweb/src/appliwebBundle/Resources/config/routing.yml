@@ -24,11 +24,11 @@ Infocat:
 
 Addtrick:
     path:     /addtrick
-    defaults: { _controller: appliwebBundle:Advert:addtrick }
+    defaults: { _controller: appliwebBundle:Add:addtrick }
 
 Edittrick:
     path:     /edittrick
-    defaults: { _controller: appliwebBundle:Admin:edittrick }
+    defaults: { _controller: appliwebBundle:Edit:edittrick }
 
 Trick:
     path:     /trick
@@ -36,11 +36,11 @@ Trick:
 
 Editcat:
     path:     /editcat
-    defaults: { _controller: appliwebBundle:Admin:editcat }
+    defaults: { _controller: appliwebBundle:Edit:editcat }
 
 Addcat:
     path:     /addcat
-    defaults: { _controller: appliwebBundle:Advert:addcat }
+    defaults: { _controller: appliwebBundle:Add:addcat }
 
 Nopublish:
     path:     /nopublish

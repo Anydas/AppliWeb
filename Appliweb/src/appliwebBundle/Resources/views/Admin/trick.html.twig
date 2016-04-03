@@ -2,52 +2,71 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-		<link rel="stylesheet" href="{{ asset('Assets/css/bootstrap.css') }}" />
-	    <link rel="stylesheet" href="{{ asset('Assets/css/style.css') }}" />
-        <title>Trick</title>
-        {{ include("appliwebBundle:Advert:layout.html.twig") }}
-        {{ include("appliwebBundle:Advert:fancybox.html.twig") }}
-    </head>
-    <body>
-    <div class="container">
-  
-        <p>
-
-        <table class="table table-bordered table-striped table-condensed">
-           <thead>
-               <tr>
-                   <th>Image</th>
-                   <th>Cat name</th>
-                   <th>Trick</th>
-                   <th>Post by</th>
-                   <th>Edit</th>
-                   </tr>
-           </thead>
-           <tbody>
-           {% for list in listTrick %}
-             <tr>
-               {% for cat in listCat %}
-               {% if list.idcat == cat.id %}
-             <td>&nbsp<a class="fancybox" href="Assets/Image/{{ cat.frenchname }}.png" data-fancybox-group="gallery" title="{{ cat.frenchname }}"><img src="Assets/Image/{{ cat.frenchname }}.png" alt="{{ cat.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
-             <td>&nbsp{{ cat.frenchname }}&nbsp</td>
-             {% endif %}
-             {% endfor %}
-             <td>&nbsp{{ list.trickdescription }}&nbsp</td>
-             {% for user in listUser %}
+<head>
+  <!-- titre -->
+  <title>Trick</title>
+  <!-- menu -->
+  {{ include("appliwebBundle:Advert:layout.html.twig") }}
+</head>
+<body>
+  <!-- container -->
+  <div class="container">
+    <p>
+      <!-- tableau -->
+      <table class="table table-bordered table-striped table-condensed">
+        <!-- entete -->
+        <thead>
+          <tr>
+            <!-- colone1 -->
+            <th>Image</th>
+            <!-- colone2 -->
+            <th>Cat name</th>
+            <!-- colone3 -->
+            <th>Trick</th>
+            <!-- colone4 -->
+            <th>Post by</th>
+            <!-- colone5 -->
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <!-- debut du body du tab -->
+        <tbody>
+          <!-- on parcourt la liste pour afficher toutes les astuces -->
+          {% for list in listTrick %}
+          <tr>
+            <!-- on parcours la liste et on affiche les chats pour chaque astuce -->
+            {% for cat in listCat %}
+            {% if list.idcat == cat.id %}
+            <!-- colone1 -->
+            <td>&nbsp<a class="fancybox" href="Assets/Image/{{ cat.frenchname }}.png" data-fancybox-group="gallery" title="{{ cat.frenchname }}"><img src="Assets/Image/{{ cat.frenchname }}.png" alt="{{ cat.frenchname }}" style="width:62px;height:45px;"/></a>&nbsp</td>
+            <!-- colone2 -->
+            <td>&nbsp{{ cat.frenchname }}&nbsp</td>
+            {% endif %}
+            {% endfor %}
+            <!-- colone3 -->
+            <td>&nbsp{{ list.trickdescription }}&nbsp</td>
+            {% for user in listUser %}
+            <!-- On affiche tous l'editeur de l'astuce -->
             {% if list.iduser == user.id %}
+            <!-- colone4 -->
             <td>&nbsp{{ user.username }}&nbsp</td>
             {% endif %}
             {% endfor %}
-             <td><a class="btn btn-primary" href="edittrick?trick={{ list.id }}&desc={{ list.trickdescription }}" role="button">Edit</a>
-             <a class="btn btn-danger" href="admintrick?trickid={{ list.id }}" role="button">Delete</a></td>
-             </tr>
-           {% endfor %}
-           </tbody>
-         </table>
-
-        </p>
-        </div>
-        {{ include("appliwebBundle:Advert:footer.html.twig") }}
-    </body>
-</html>
+            <!-- colone5 -->
+            <td>
+              <!-- edit -->
+              <a class="btn btn-primary" href="edittrick?trick={{ list.id }}&desc={{ list.trickdescription }}" role="button">Edit</a>
+              <!-- delete -->
+              <a class="btn btn-danger" href="admintrick?trickid={{ list.id }}" role="button">Delete</a></td>
+            </tr>
+            {% endfor %}
+            <!-- fin du body -->
+          </tbody>
+          <!-- fin du tab -->
+        </table>
+      </p>
+    </div>
+    <!-- footer -->
+    {{ include("appliwebBundle:Advert:footer.html.twig") }}
+  </body>
+  </html>
